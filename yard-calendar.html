@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yard Calendar 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --spring: #4a7c59;
+  --spring-light: #e8f5ec;
+  --spring-mid: #c5e0cc;
+  --summer: #b8720a;
+  --summer-light: #fef6e4;
+  --summer-mid: #f5d9a0;
+  --fall: #b85c1e;
+  --fall-light: #fdf0e8;
+  --fall-mid: #f0c9aa;
+  --winter: #3d5a80;
+  --winter-light: #eaf0f8;
+  --winter-mid: #b8ceea;
+  --ink: #1a1a1a;
+  --paper: #faf8f3;
+  --muted: #777;
+  --rule: #e0ddd5;
+  --today: #2a2a2a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--paper); font-family: 'DM Sans', sans-serif; color: var(--ink); }
+
+/* HEADER */
+header {
+  background: var(--ink); color: white;
+  padding: 40px 24px 32px; position: relative; overflow: hidden;
+}
+header::before {
+  content: ''; position: absolute; top: -60px; right: -60px;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(74,124,89,0.4) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.header-eyebrow { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #aaa; margin-bottom: 8px; position: relative; z-index: 1; }
+header h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 7vw, 48px); font-weight: 900; line-height: 1.05; position: relative; z-index: 1; }
+header h1 em { font-style: italic; color: #7ec893; }
+.header-sub { margin-top: 12px; font-size: 13px; color: #bbb; font-weight: 300; position: relative; z-index: 1; line-height: 1.6; }
+
+/* JUMP NAV */
+.jump-nav {
+  background: #222; display: flex; overflow-x: auto; gap: 0;
+  border-bottom: 1px solid #333; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.jump-nav::-webkit-scrollbar { display: none; }
+.jump-btn {
+  flex-shrink: 0; padding: 10px 16px; font-size: 12px; font-weight: 500;
+  color: #999; border: none; background: none; cursor: pointer;
+  letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap;
+  border-bottom: 3px solid transparent; transition: all 0.15s;
+}
+.jump-btn:hover { color: white; }
+.jump-btn.spring { border-color: var(--spring); color: #7ec893; }
+.jump-btn.summer { border-color: var(--summer); color: #f5c06a; }
+.jump-btn.fall { border-color: var(--fall); color: #e8a070; }
+.jump-btn.winter { border-color: var(--winter); color: #8ab4d8; }
+
+/* INSIGHT BANNER */
+.insight {
+  background: #2a2a2a; border-left: 4px solid #7ec893;
+  padding: 14px 20px; font-size: 13px; color: #ccc; line-height: 1.6;
+}
+.insight strong { color: white; }
+
+/* FILTER BAR */
+.filter-bar {
+  padding: 12px 16px; display: flex; gap: 8px; flex-wrap: wrap;
+  border-bottom: 1px solid var(--rule); background: white; position: sticky; top: 0; z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.filter-label { font-size: 11px; color: var(--muted); align-self: center; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; margin-right: 4px; }
+.filter-btn {
+  font-size: 11px; padding: 4px 10px; border-radius: 20px; border: 1px solid var(--rule);
+  background: white; cursor: pointer; font-weight: 500; color: var(--muted); transition: all 0.15s;
+}
+.filter-btn.active, .filter-btn:hover { background: var(--ink); color: white; border-color: var(--ink); }
+.filter-btn.active-done { background: #7ec893; color: white; border-color: #7ec893; }
+
+/* PROGRESS */
+.progress-wrap { padding: 12px 20px; background: white; border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 12px; }
+.progress-bar-outer { flex: 1; height: 6px; background: var(--rule); border-radius: 3px; overflow: hidden; }
+.progress-bar-inner { height: 100%; background: #7ec893; border-radius: 3px; transition: width 0.4s; }
+.progress-text { font-size: 12px; color: var(--muted); white-space: nowrap; }
+
+/* TIMELINE */
+.timeline { padding: 0 0 60px; max-width: 720px; margin: 0 auto; }
+
+/* MONTH HEADER */
+.month-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 24px 20px 10px; position: sticky; top: 53px; z-index: 8;
+  background: var(--paper);
+}
+.month-header::after {
+  content: ''; flex: 1; height: 1px; background: var(--rule);
+}
+.month-name {
+  font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700;
+  white-space: nowrap;
+}
+.month-season-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 2px;
+}
+.spring-dot { background: var(--spring); }
+.summer-dot { background: var(--summer); }
+.fall-dot { background: var(--fall); }
+.winter-dot { background: var(--winter); }
+
+/* TODAY LINE */
+.today-marker {
+  margin: 8px 20px 0;
+  padding: 6px 12px;
+  background: var(--ink); color: white;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+  border-radius: 3px; display: inline-flex; align-items: center; gap: 6px;
+}
+.today-marker::before { content: '▶'; font-size: 8px; }
+
+/* TASK ENTRY */
+.task-entry {
+  display: flex; gap: 0; margin: 0 20px 2px; border-radius: 6px;
+  overflow: hidden; border: 1px solid var(--rule); background: white;
+  transition: opacity 0.2s;
+}
+.task-entry.hidden { display: none; }
+.task-entry.done { opacity: 0.5; }
+
+.task-date-col {
+  width: 52px; flex-shrink: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-start; padding: 12px 0 0;
+  border-right: 1px solid var(--rule); background: #fafaf8;
+}
+.task-day { font-size: 18px; font-weight: 700; line-height: 1; color: var(--ink); }
+.task-dow { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-top: 1px; }
+
+.task-body { flex: 1; padding: 10px 12px; min-width: 0; }
+.task-top { display: flex; align-items: flex-start; gap: 8px; }
+.task-check {
+  width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--rule);
+  flex-shrink: 0; margin-top: 2px; cursor: pointer; position: relative; transition: all 0.2s;
+}
+.task-entry.done .task-check { border-color: #7ec893; background: #7ec893; }
+.task-entry.done .task-check::after {
+  content: '✓'; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%); font-size: 10px; color: white; font-weight: 700;
+}
+.task-entry.done .task-title { text-decoration: line-through; opacity: 0.6; }
+
+.task-title { font-size: 14px; font-weight: 500; line-height: 1.35; flex: 1; cursor: pointer; }
+.task-badge {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 20px; flex-shrink: 0; margin-top: 1px;
+}
+.badge-high { background: #fde8e8; color: #c0392b; }
+.badge-med { background: #fef3cd; color: #9a6700; }
+.badge-low { background: #e8f4fd; color: #1a6fa8; }
+
+.task-note { font-size: 12px; color: var(--muted); margin-top: 5px; line-height: 1.5; }
+
+/* HOW-TO TOGGLE */
+.howto-toggle {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600; color: #4a7c59; margin-top: 6px;
+  cursor: pointer; letter-spacing: 0.03em; user-select: none;
+  background: var(--spring-light); padding: 3px 9px; border-radius: 20px;
+  border: 1px solid var(--spring-mid); transition: background 0.15s;
+}
+.howto-toggle:hover { background: var(--spring-mid); }
+.howto-toggle .arrow { font-size: 9px; transition: transform 0.2s; }
+.howto-toggle.open .arrow { transform: rotate(90deg); }
+
+.howto-content {
+  display: none; margin-top: 10px; padding: 12px 14px;
+  background: #f6faf7; border-radius: 6px; border: 1px solid var(--spring-mid);
+  font-size: 13px; line-height: 1.7; color: #333;
+}
+.howto-content.open { display: block; }
+.howto-content h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--spring); margin-bottom: 6px; margin-top: 12px; }
+.howto-content h4:first-child { margin-top: 0; }
+.howto-content ol, .howto-content ul { padding-left: 18px; }
+.howto-content li { margin-bottom: 5px; }
+.howto-content .tip { background: #fffbe6; border-left: 3px solid #f5c06a; padding: 8px 10px; border-radius: 3px; margin-top: 10px; font-size: 12px; color: #6b4f00; }
+.howto-content strong { color: var(--ink); }
+
+/* SEASON ANCHOR */
+.season-anchor { scroll-margin-top: 100px; }
+
+/* SPACER */
+.month-spacer { height: 16px; }
+
+footer {
+  text-align: center; padding: 28px 20px; font-size: 11px; color: #bbb;
+  border-top: 1px solid var(--rule);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-eyebrow">Framingham, MA · Cool-Season Lawn · 2026–2027</div>
+  <h1>Yard Calendar,<br><em>Date by Date</em></h1>
+  <p class="header-sub">Every task on an actual date. Tap the circle to check off. Tap "How to do this" for step-by-step instructions.</p>
+</header>
+
+<nav class="jump-nav">
+  <button class="jump-btn spring" onclick="scrollTo('may')">May</button>
+  <button class="jump-btn spring" onclick="scrollTo('jun')">June</button>
+  <button class="jump-btn summer" onclick="scrollTo('jul')">July</button>
+  <button class="jump-btn summer" onclick="scrollTo('aug')">August</button>
+  <button class="jump-btn fall" onclick="scrollTo('sep')">September</button>
+  <button class="jump-btn fall" onclick="scrollTo('oct')">October</button>
+  <button class="jump-btn fall" onclick="scrollTo('nov')">November</button>
+  <button class="jump-btn winter" onclick="scrollTo('dec')">December</button>
+  <button class="jump-btn winter" onclick="scrollTo('jan')">January</button>
+  <button class="jump-btn winter" onclick="scrollTo('feb')">February</button>
+  <button class="jump-btn spring" onclick="scrollTo('mar')">March '27</button>
+  <button class="jump-btn spring" onclick="scrollTo('apr')">April '27</button>
+</nav>
+
+<div class="insight">
+  <strong>About those thick, coarse patches:</strong> Almost certainly <strong>tall fescue clumping</strong> or <strong>crabgrass</strong>. Your fix is in the September tasks — kill, wait 2 weeks, overseed. That's the highest-impact thing you'll do all year.
+</div>
+
+<div class="filter-bar">
+  <span class="filter-label">Show:</span>
+  <button class="filter-btn active" id="filter-all" onclick="setFilter('all')">All</button>
+  <button class="filter-btn" id="filter-upcoming" onclick="setFilter('upcoming')">Upcoming</button>
+  <button class="filter-btn" id="filter-todo" onclick="setFilter('todo')">To-do only</button>
+  <button class="filter-btn" id="filter-done" onclick="setFilter('done')">Done</button>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar" style="width:0%"></div></div>
+  <div class="progress-text" id="progress-text">0 of 0 done</div>
+</div>
+
+<div class="timeline">
+
+<!-- ═══════════════════════════════════ MAY ═══════════════════════════════════ -->
+<div id="may" class="season-anchor"></div>
+<div class="month-header">
+  <div class="month-season-dot spring-dot"></div>
+  <div class="month-name">May 2026</div>
+</div>
+<div class="today-marker">You are here · May 24</div>
+
+<!-- May 24 -->
+<div class="task-entry" data-date="2026-05-24" data-id="rake-thatch">
+  <div class="task-date-col"><div class="task-day">24</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Rake out winter debris & dead thatch</div>
+      <div class="task-badge badge-med">Soon</div>
+    </div>
+    <div class="task-note">A light rake-out lets air and water reach roots. Don't overdo it — just clear the matted-down stuff and debris from winter.</div>
+  </div>
+</div>
+
+<!-- May 24 -->
+<div class="task-entry" data-date="2026-05-24" data-id="irrigation-startup">
+  <div class="task-date-col"><div class="task-day">24</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Start up the irrigation system</div>
+      <div class="task-badge badge-high">Key</div>
+    </div>
+    <div class="task-note">Frost risk is past. Time to get the system running and find out what survived winter.</div>
+    <div class="howto-toggle" onclick="toggleHowto(this)"><span class="arrow">▶</span> How to do this</div>
+    <div class="howto-content">
+      <h4>Step 1 — Find the main shutoff valve</h4>
+      <p>Usually in the basement or a utility area near the foundation. It's a ball valve or gate valve on the supply line going to the irrigation system. If you've never turned it on, you may need to locate the backflow preventer outside near the foundation too.</p>
+      <h4>Step 2 — Open the valve slowly</h4>
+      <p>Turn it <strong>slowly</strong> — a quarter turn every few seconds. If you open it fast, the sudden pressure surge (called water hammer) can crack old fittings or pop heads off. Take 30–60 seconds to go from closed to fully open.</p>
+      <h4>Step 3 — Check the backflow preventer</h4>
+      <p>This is the T-shaped or elbow-shaped brass device outside near the foundation. It should have two small handle levers. Both should be parallel to the pipes when the system is on. If one is perpendicular, it's still closed.</p>
+      <h4>Step 4 — Run each zone from the controller</h4>
+      <p>Go to your irrigation controller and manually activate Zone 1. Walk outside and watch: every head should pop up and spray. Look for puddles (cracked body), heads not rising (clog or broken), or areas getting missed (adjusted head or nozzle issue). Repeat for every zone.</p>
+      <div class="tip">⚡ First year tip: Take a quick video walking each zone while it runs. You'll want to compare later in summer if you notice dry spots.</div>
+    </div>
+  </div>
+</div>
+
+<!-- May 24 -->
+<div class="task-entry" data-date="2026-05-24" data-id="pgp-replace">
+  <div class="task-date-col"><div class="task-day">24</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Install replacement Hunter PGP head</div>
+      <div class="task-badge badge-high">Key</div>
+    </div>
+    <div class="task-note">The head your plow guy took off. Do this during or right after startup so you know that zone is working.</div>
+    <div class="howto-toggle" onclick="toggleHowto(this)"><span class="arrow">▶</span> How to do this</div>
+    <div class="howto-content">
+      <h4>What you need</h4>
+      <ul>
+        <li>New Hunter PGP rotor head (~$10–15 on Amazon, get a 2-pack)</li>
+        <li>Small flat-head screwdriver (optional)</li>
+        <li>Teflon tape (optional but good practice)</li>
+      </ul>
+      <h4>Step 1 — Turn off the zone</h4>
+      <p>Make sure that zone is off at the controller before you dig around the head.</p>
+      <h4>Step 2 — Unscrew the old body</h4>
+      <p>Grab the body of the old head and twist counterclockwise. It threads directly into a swing joint or fitting in the ground. If it's buried a bit, dig around it with your hands — usually just an inch or two. The whole body unscrews out.</p>
+      <h4>Step 3 — Thread in the new head</h4>
+      <p>Hand-thread the new PGP body clockwise into the fitting. <strong>Don't use a wrench</strong> — hand tight plus a half turn is enough. Overtightening cracks the plastic body or the fitting below it.</p>
+      <h4>Step 4 — Set the height</h4>
+      <p>The top of the head should sit about ½" above the soil surface — high enough to pop up and spray over the grass, low enough that the mower won't clip it. Adjust by turning the whole head in or out.</p>
+      <h4>Step 5 — Run the zone and confirm</h4>
+      <p>Activate that zone and watch: the head should pop up fully, rotate back and forth, and spray the intended area. If it doesn't rotate, the nozzle may need to be pulled and cleaned.</p>
+      <div class="tip">⚡ While you're there: check the heads on either side of it too. Your plow may have clipped more than one.</div>
+    </div>
+  </div>
+</div>
+
+<!-- May 24 -->
+<div class="task-entry" data-date="2026-05-24" data-id="zone-walk">
+  <div class="task-date-col"><div class="task-day">24</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Walk every zone and inspect all heads</div>
+      <div class="task-badge badge-high">Key</div>
+    </div>
+    <div class="task-note">Run each zone one at a time. Puddles = cracked body. Dry spots = clogged nozzle or wrong arc. Head won't pop = debris in the body.</div>
+  </div>
+</div>
+
+<!-- May 24 -->
+<div class="task-entry" data-date="2026-05-24" data-id="arc-adjust">
+  <div class="task-date-col"><div class="task-day">24</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Adjust Hunter PGP head arcs and radius</div>
+      <div class="task-badge badge-med">Tune</div>
+    </div>
+    <div class="task-note">Use your Hunter adjustment tool. Each head should reach the next head over — that's the "head-to-head coverage" principle that prevents dry spots.</div>
+    <div class="howto-toggle" onclick="toggleHowto(this)"><span class="arrow">▶</span> How to do this</div>
+    <div class="howto-content">
+      <h4>Understanding the PGP rotor</h4>
+      <p>The PGP has two adjustments: <strong>arc</strong> (how wide it sweeps left and right) and <strong>radius</strong> (how far it throws the water). Both can be changed without digging anything up.</p>
+      <h4>Adjusting the Arc</h4>
+      <ol>
+        <li>With the zone running, let the head rotate to its right-most stopping point — this is the fixed edge and doesn't move.</li>
+        <li>Insert your Hunter tool (or a flat screwdriver) into the <strong>slot on the top of the pop-up stem</strong>.</li>
+        <li>Turn clockwise to increase the arc, counterclockwise to decrease. The arc ranges from 40° to 360°.</li>
+        <li>Let it rotate through a full cycle to confirm the new arc before moving on.</li>
+      </ol>
+      <h4>Adjusting the Radius (throw distance)</h4>
+      <ol>
+        <li>Look at the nozzle on the side of the pop-up stem — there's a small screw in the center of the nozzle face.</li>
+        <li>Turn it clockwise (righty-tighty) to reduce the throw distance. Counterclockwise increases it.</li>
+        <li>You can reduce throw by up to 25% this way. For big reductions, you need a different nozzle size.</li>
+      </ol>
+      <h4>The goal: head-to-head coverage</h4>
+      <p>Each head should throw water all the way to the next head in the row. This sounds like overkill but it's the industry standard — areas only reached by one head will always be drier than areas covered by two overlapping heads.</p>
+      <div class="tip">⚡ Do all adjustments with the zone running so you can see the actual spray pattern in real time.</div>
+    </div>
+  </div>
+</div>
+
+<!-- May 24 -->
+<div class="task-entry" data-date="2026-05-24" data-id="controller-spring">
+  <div class="task-date-col"><div class="task-day">24</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Set controller to spring schedule</div>
+      <div class="task-badge badge-med">Set</div>
+    </div>
+    <div class="task-note">Spring target: 2–3 days/week, ~20 min per zone, 4–6am. Don't use whatever the previous owners had — it was probably set for peak summer. Overwatering in spring invites fungus.</div>
+    <div class="howto-toggle" onclick="toggleHowto(this)"><span class="arrow">▶</span> How to do this</div>
+    <div class="howto-content">
+      <h4>Finding your controller</h4>
+      <p>It's usually mounted in the garage or a utility closet. Should look like a small box with a dial or digital display and labeled zone wires in the back.</p>
+      <h4>Spring settings to program</h4>
+      <ul>
+        <li><strong>Start time:</strong> 4:00am or 5:00am (finishes before you're up, avoids evening fungus)</li>
+        <li><strong>Run time per zone:</strong> 18–22 minutes</li>
+        <li><strong>Days:</strong> Monday, Wednesday, Saturday (skip consecutive days)</li>
+      </ul>
+      <h4>If you have a smart controller (like Rachio or Hunter HC)</h4>
+      <p>Set it to "weather-based" or "ET" mode and let it auto-adjust based on rainfall. This is ideal — you'll never need to manually bump the schedule up or down for rain.</p>
+      <h4>Check for a rain sensor</h4>
+      <p>Look on the eave of your roofline or near the controller for a small white disc — that's a rain sensor. It should interrupt the system automatically after significant rainfall. Test it by running a zone and holding the sensor button down; the zone should stop.</p>
+    </div>
+  </div>
+</div>
+
+<!-- May 25 -->
+<div class="task-entry" data-date="2026-05-25" data-id="mow-start">
+  <div class="task-date-col"><div class="task-day">25</div><div class="task-dow">Mon</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">First mow of season — set blade to 3–3.5"</div>
+      <div class="task-badge badge-high">Key</div>
+    </div>
+    <div class="task-note">Mow high all season. Tall grass shades the soil, reduces moisture loss, and crowds out weeds. Never cut more than ⅓ of the blade height at once.</div>
+    <div class="howto-toggle" onclick="toggleHowto(this)"><span class="arrow">▶</span> How to do this</div>
+    <div class="howto-content">
+      <h4>Setting the Ryobi 21" blade height</h4>
+      <p>Your Ryobi has a single lever on the side (or individual levers at each wheel) that adjusts cutting height. Most positions are labeled. <strong>Set it to position 4 or 5</strong> — this should be around 3 to 3.5 inches on most Ryobi 21" models.</p>
+      <h4>The ⅓ rule</h4>
+      <p>Never cut more than one-third of the grass blade in a single mow. So if your grass is 4.5" tall, don't cut below 3". Cutting too much at once stresses the plant and can cause yellowing or scalping.</p>
+      <h4>Mowing frequency</h4>
+      <ul>
+        <li><strong>Spring (May–June):</strong> Every 5–7 days — grass grows fast</li>
+        <li><strong>Summer (July–Aug):</strong> Every 7–10 days or as needed — growth slows</li>
+        <li><strong>Fall (Sept–Oct):</strong> Every 7 days during regrowth after overseeding</li>
+        <li><strong>Last cuts (Oct–Nov):</strong> Drop to 2.5" for final 2 cuts to reduce snow mold risk</li>
+      </ul>
+      <div class="tip">⚡ Mow when the grass is dry. Wet clippings clump, clog the Ryobi's deck, and can spread fungal disease.</div>
+    </div>
+  </div>
+</div>
+
+<!-- May 25 -->
+<div class="task-entry" data-date="2026-05-25" data-id="door-sweeps">
+  <div class="task-date-col"><div class="task-day">25</div><div class="task-dow">Mon</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Check and replace door sweeps if needed</div>
+      <div class="task-badge badge-low">Seal</div>
+    </div>
+    <div class="task-note">Main entry point for wolf spiders and ants. Slide a piece of paper under each exterior door — if it passes easily, the sweep needs replacing. $10–15 at any hardware store.</div>
+  </div>
+</div>
+
+<!-- May 25 -->
+<div class="task-entry" data-date="2026-05-25" data-id="pest-may">
+  <div class="task-date-col"><div class="task-day">25</div><div class="task-dow">Mon</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Apply Sunday Bug Doom — perimeter spray</div>
+      <div class="task-badge badge-high">Key</div>
+    </div>
+    <div class="task-note">Spray a 2–3 ft band around the entire foundation at ground level, plus door frames and window sills. Defense against wolf spiders, ants, and crawling insects. Pyrethrin-based — reapply every 4–6 weeks.</div>
+  </div>
+</div>
+
+<!-- May 25 -->
+<div class="task-entry" data-date="2026-05-25" data-id="antadios-may">
+  <div class="task-date-col"><div class="task-day">25</div><div class="task-dow">Mon</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Scatter Sunday Ant Adios — perimeter pellets</div>
+      <div class="task-badge badge-med">Pest</div>
+    </div>
+    <div class="task-note">Around foundation, walkways, and entry points. Works as bait — ants carry it back to the colony. More effective than contact spray for ants. Reapply monthly through September.</div>
+  </div>
+</div>
+
+<!-- May 30 -->
+<div class="task-entry" data-date="2026-05-30" data-id="spring-fert">
+  <div class="task-date-col"><div class="task-day">30</div><div class="task-dow">Sat</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Apply spring fertilizer (light application)</div>
+      <div class="task-badge badge-low">Nice</div>
+    </div>
+    <div class="task-note">Use a slow-release nitrogen fertilizer (look for "30-0-4" style ratio). Check what's in your Sunday lawn plan first — they may have sent this. Don't overdo it; fall is the critical feeding season, not spring.</div>
+  </div>
+</div>
+
+<!-- May 30 -->
+<div class="task-entry" data-date="2026-05-30" data-id="mulch-may">
+  <div class="task-date-col"><div class="task-day">30</div><div class="task-dow">Sat</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Refresh mulch in flower beds</div>
+      <div class="task-badge badge-low">Nice</div>
+    </div>
+    <div class="task-note">2–3 inch layer. Keeps moisture in and weeds out. Don't pile against plant stems or tree trunks — that causes rot.</div>
+  </div>
+</div>
+
+<!-- May 30 -->
+<div class="task-entry" data-date="2026-05-30" data-id="edge-may">
+  <div class="task-date-col"><div class="task-day">30</div><div class="task-dow">Sat</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Edge beds and driveway borders</div>
+      <div class="task-badge badge-low">Nice</div>
+    </div>
+    <div class="task-note">A sharp edge makes the whole lawn look more intentional. Once this season is enough if you mulch beds well afterward.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ JUNE ═══════════════════════════════════ -->
+<div class="month-spacer"></div>
+<div id="jun" class="season-anchor"></div>
+<div class="month-header">
+  <div class="month-season-dot spring-dot"></div>
+  <div class="month-name">June 2026</div>
+</div>
+
+<div class="task-entry" data-date="2026-06-01" data-id="pest-jun">
+  <div class="task-date-col"><div class="task-day">1</div><div class="task-dow">Mon</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Reapply Bug Doom + Ant Adios</div>
+      <div class="task-badge badge-med">Pest</div>
+    </div>
+    <div class="task-note">Monthly reapplication. Pyrethrin formula breaks down quickly, especially after rain. Foundation perimeter + door frames. Takes 15 minutes.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-06-07" data-id="mow-jun1">
+  <div class="task-date-col"><div class="task-day">7</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Mow (keep blade at 3–3.5")</div>
+      <div class="task-badge badge-med">Routine</div>
+    </div>
+    <div class="task-note">Mow every 5–7 days while grass is actively growing. Mow dry. Never remove more than ⅓ of blade height at once.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-06-14" data-id="mow-jun2">
+  <div class="task-date-col"><div class="task-day">14</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Mow (keep blade at 3–3.5")</div>
+      <div class="task-badge badge-med">Routine</div>
+    </div>
+    <div class="task-note">Mow every 5–7 days while grass is actively growing. Mow dry. Never remove more than ⅓ of blade height at once.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-06-15" data-id="irrigation-summer">
+  <div class="task-date-col"><div class="task-day">15</div><div class="task-dow">Mon</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Bump irrigation to summer schedule</div>
+      <div class="task-badge badge-med">Adjust</div>
+    </div>
+    <div class="task-note">Increase to 3 days/week, ~25 min per zone. Check rain sensor is working. If you have a smart controller, switch it to summer mode or let ET-based watering auto-adjust.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-06-21" data-id="mow-jun3">
+  <div class="task-date-col"><div class="task-day">21</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Mow (keep blade at 3–3.5")</div>
+      <div class="task-badge badge-med">Routine</div>
+    </div>
+    <div class="task-note">Mow every 5–7 days while grass is actively growing. Mow dry. Never remove more than ⅓ of blade height at once.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-06-28" data-id="mow-jun4">
+  <div class="task-date-col"><div class="task-day">28</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Mow (keep blade at 3–3.5")</div>
+      <div class="task-badge badge-med">Routine</div>
+    </div>
+    <div class="task-note">Mow every 5–7 days while grass is actively growing. Mow dry. Never remove more than ⅓ of blade height at once.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ JULY ═══════════════════════════════════ -->
+<div class="month-spacer"></div>
+<div id="jul" class="season-anchor"></div>
+<div class="month-header">
+  <div class="month-season-dot summer-dot"></div>
+  <div class="month-name">July 2026</div>
+</div>
+
+<div class="task-entry" data-date="2026-07-01" data-id="pest-jul">
+  <div class="task-date-col"><div class="task-day">1</div><div class="task-dow">Wed</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Reapply Bug Doom + Ant Adios</div>
+      <div class="task-badge badge-med">Pest</div>
+    </div>
+    <div class="task-note">Monthly reapplication. Foundation perimeter + door frames. 15 minutes.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-07-05" data-id="mow-jul1">
+  <div class="task-date-col"><div class="task-day">5</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Mow if needed — check growth first</div>
+      <div class="task-badge badge-med">Routine</div>
+    </div>
+    <div class="task-note">Summer growth slows — mow every 7–10 days or when grass hits ~4.5". If it's hot and dry and the lawn looks tan/dormant, skip the mow. Dormant grass doesn't need cutting.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-07-12" data-id="head-check-jul">
+  <div class="task-date-col"><div class="task-day">12</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Mid-season irrigation head check</div>
+      <div class="task-badge badge-low">Check</div>
+    </div>
+    <div class="task-note">Run each zone and walk it. Look for dry streaks (head tilted or arc wrong), puddles (cracked body), or heads getting clipped by the mower deck. A head angled 20° off will show up as a dry patch by August.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-07-15" data-id="flag-patches">
+  <div class="task-date-col"><div class="task-day">15</div><div class="task-dow">Wed</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Flag the coarse/thick grass patches</div>
+      <div class="task-badge badge-med">Plan</div>
+    </div>
+    <div class="task-note">Use lawn flags or just take a photo map. These spots need to be killed and reseeded in September. Knowing exactly where they are now saves time in fall.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-07-19" data-id="mow-jul2">
+  <div class="task-date-col"><div class="task-day">19</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Mow if needed — check growth first</div>
+      <div class="task-badge badge-med">Routine</div>
+    </div>
+    <div class="task-note">Skip if lawn is dormant (tan/straw-colored). That's normal — it's not dead. It'll bounce back in September when temps drop.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ AUGUST ═══════════════════════════════════ -->
+<div class="month-spacer"></div>
+<div id="aug" class="season-anchor"></div>
+<div class="month-header">
+  <div class="month-season-dot summer-dot"></div>
+  <div class="month-name">August 2026</div>
+</div>
+
+<div class="task-entry" data-date="2026-08-01" data-id="pest-aug">
+  <div class="task-date-col"><div class="task-day">1</div><div class="task-dow">Sat</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Reapply Bug Doom + Ant Adios</div>
+      <div class="task-badge badge-med">Pest</div>
+    </div>
+    <div class="task-note">Monthly reapplication. Foundation perimeter + door frames. 15 minutes.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-08-10" data-id="kill-patches">
+  <div class="task-date-col"><div class="task-day">10</div><div class="task-dow">Mon</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Spray Roundup on coarse grass patches</div>
+      <div class="task-badge badge-high">Key</div>
+    </div>
+    <div class="task-note">Apply non-selective herbicide (glyphosate / Roundup) to the flagged patches. Wait 2 full weeks before disturbing the soil. The patches will turn brown — that's correct. You need to kill the root system, not just the blades.</div>
+    <div class="howto-toggle" onclick="toggleHowto(this)"><span class="arrow">▶</span> How to do this</div>
+    <div class="howto-content">
+      <h4>What you need</h4>
+      <ul>
+        <li>Roundup or generic glyphosate concentrate + pump sprayer (or ready-to-use spray bottle for small areas)</li>
+        <li>Flags or paint marking where the patches are</li>
+        <li>Calm, dry day — no rain for 24 hours after, no wind</li>
+      </ul>
+      <h4>Step 1 — Mark the patches clearly</h4>
+      <p>Walk the lawn and spray-paint or flag every clumpy fescue or crabgrass patch. You'll be looking at dead brown spots in 2 weeks, so knowing exactly where you treated matters.</p>
+      <h4>Step 2 — Apply glyphosate</h4>
+      <p>Spray the patches thoroughly — wet all the blades but don't let it run onto healthy grass. Glyphosate is systemic, meaning it travels from the blade to the root. It takes 7–14 days to work fully. Don't re-spray if it still looks green after a few days — it's working.</p>
+      <h4>Step 3 — Wait 2 full weeks</h4>
+      <p>Mark August 24th on your calendar as the earliest you can seed. Seeding too early wastes seed — the roots may still be alive underground.</p>
+      <div class="tip">⚡ Keep pets and kids off the sprayed area until it's fully dry (usually 30–60 minutes). After that it binds to soil and is inert.</div>
+    </div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-08-17" data-id="mow-aug">
+  <div class="task-date-col"><div class="task-day">17</div><div class="task-dow">Mon</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Mow around the treated patches</div>
+      <div class="task-badge badge-med">Routine</div>
+    </div>
+    <div class="task-note">Mow the rest of the lawn as normal. Avoid running over the treated patches with the mower — not because it hurts anything, just to avoid spreading the dead material.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ SEPTEMBER ═══════════════════════════════════ -->
+<div class="month-spacer"></div>
+<div id="sep" class="season-anchor"></div>
+<div class="month-header">
+  <div class="month-season-dot fall-dot"></div>
+  <div class="month-name">September 2026 — Most Important Month</div>
+</div>
+
+<div class="task-entry" data-date="2026-09-01" data-id="pest-sep">
+  <div class="task-date-col"><div class="task-day">1</div><div class="task-dow">Tue</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Reapply Bug Doom + Ant Adios (last monthly)</div>
+      <div class="task-badge badge-med">Pest</div>
+    </div>
+    <div class="task-note">Last monthly reapplication before fall. Foundation perimeter + door frames.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-09-06" data-id="aerate">
+  <div class="task-date-col"><div class="task-day">6</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Aerate the entire lawn</div>
+      <div class="task-badge badge-high">Key</div>
+    </div>
+    <div class="task-note">Rent a plug aerator (~$80/day at Home Depot) or hire it out. Loosens compacted soil and dramatically improves seed-to-soil contact for overseeding. Do this before you seed, not after.</div>
+    <div class="howto-toggle" onclick="toggleHowto(this)"><span class="arrow">▶</span> How to do this</div>
+    <div class="howto-content">
+      <h4>Plug aerator vs spike aerator</h4>
+      <p>A <strong>plug aerator</strong> pulls out cores of soil — this is the one you want. A spike aerator just pokes holes, which can actually compact the surrounding soil more. Home Depot and Sunbelt rent plug aerators by the day.</p>
+      <h4>Before you aerate</h4>
+      <ul>
+        <li>Water the lawn 1–2 days before — the tines penetrate moist soil much better than dry soil</li>
+        <li>Mark any shallow irrigation heads with flags so you don't drive over them</li>
+        <li>Call 811 (Dig Safe) if you have any uncertainty about buried lines — though irrigation lines are usually shallow enough not to be an issue for aeration</li>
+      </ul>
+      <h4>How to run the aerator</h4>
+      <p>Make overlapping passes like you're mowing. Go over the whole lawn at least once; twice in compacted or heavy-traffic areas. The machine will eject small plugs of soil — leave them on the lawn. They'll break down in 1–2 weeks and return nutrients to the soil.</p>
+      <h4>After aeration</h4>
+      <p>Seed immediately — the holes from aeration are perfect seed pockets. Then fertilize. Then water.</p>
+    </div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-09-06" data-id="overseed">
+  <div class="task-date-col"><div class="task-day">6</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Overseed the dead patches + thin areas</div>
+      <div class="task-badge badge-high">Key</div>
+    </div>
+    <div class="task-note">Use a quality Kentucky bluegrass / tall fescue blend (look for "Northeast" or "sun & shade" mix). Rough up the soil surface in the killed patches first. Seed should make direct contact with soil — not sitting on top of dead thatch.</div>
+    <div class="howto-toggle" onclick="toggleHowto(this)"><span class="arrow">▶</span> How to do this</div>
+    <div class="howto-content">
+      <h4>For the killed patches specifically</h4>
+      <ol>
+        <li>Use a hard rake to scratch up the dead material and expose bare soil — the seed needs soil contact to germinate</li>
+        <li>Apply seed at the rate on the bag (usually 4–6 lbs per 1,000 sq ft for a new area)</li>
+        <li>Lightly rake seed into the top ¼ inch of soil</li>
+        <li>Apply a thin layer of peat moss or starter fertilizer over the top (helps retain moisture)</li>
+      </ol>
+      <h4>For the rest of the lawn (overseeding thin areas)</h4>
+      <p>Use a broadcast spreader at half the "new lawn" rate. The aeration holes will catch seed and give it good germination rates. You don't need to rake.</p>
+      <h4>Keeping it moist after seeding</h4>
+      <p>This is the critical part. New seed needs to stay <strong>consistently moist</strong> for 2–3 weeks until it germinates. Water lightly every day (or twice a day if it's dry) — not a deep soak, just enough to keep the top inch moist. Once you see green fuzz emerging, back off to every other day.</p>
+      <div class="tip">⚡ Don't mow the overseeded areas until the new grass is at least 3" tall — usually 3–4 weeks. Mow around it if you have to.</div>
+    </div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-09-06" data-id="starter-fert">
+  <div class="task-date-col"><div class="task-day">6</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Apply starter fertilizer over seeded areas</div>
+      <div class="task-badge badge-high">Key</div>
+    </div>
+    <div class="task-note">Use a starter fertilizer (high phosphorus — middle number on the bag — like 12-24-8). Helps roots establish. Apply right after seeding. Don't use regular fertilizer on new seed.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-09-10" data-id="ph-test">
+  <div class="task-date-col"><div class="task-day">10</div><div class="task-dow">Thu</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Do a soil pH test</div>
+      <div class="task-badge badge-low">Smart</div>
+    </div>
+    <div class="task-note">Northeast soils often run acidic. A $15 test kit from the garden center. If pH is below 6.0, apply lime this fall — it takes months to change pH, so fall application works by spring.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-09-20" data-id="fall-fert">
+  <div class="task-date-col"><div class="task-day">20</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Apply fall (winterizer) fertilizer — most important of the year</div>
+      <div class="task-badge badge-high">Key</div>
+    </div>
+    <div class="task-note">Use a "winterizer" blend — higher potassium (third number) builds root strength and disease resistance for next year. This feeding matters more than anything you do in spring. Check your Sunday plan — this may be included.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-09-27" data-id="mow-sep">
+  <div class="task-date-col"><div class="task-day">27</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Mow established areas (avoid new seedling areas)</div>
+      <div class="task-badge badge-med">Routine</div>
+    </div>
+    <div class="task-note">Keep mowing the established lawn at 3–3.5". Avoid running over areas where you can see new seedlings coming in — they're fragile until they hit 3" tall.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ OCTOBER ═══════════════════════════════════ -->
+<div class="month-spacer"></div>
+<div id="oct" class="season-anchor"></div>
+<div class="month-header">
+  <div class="month-season-dot fall-dot"></div>
+  <div class="month-name">October 2026</div>
+</div>
+
+<div class="task-entry" data-date="2026-10-04" data-id="mow-oct1">
+  <div class="task-date-col"><div class="task-day">4</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Mow + mulch-mow leaves</div>
+      <div class="task-badge badge-med">Routine</div>
+    </div>
+    <div class="task-note">Light leaf coverage can be mulched in place — run over them with the mower and leave the shredded material on the lawn. Free fertilizer. Heavy leaf accumulation should be bagged.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-10-15" data-id="irrigate-off">
+  <div class="task-date-col"><div class="task-day">15</div><div class="task-dow">Thu</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Schedule irrigation blowout — before Oct 31</div>
+      <div class="task-badge badge-high">Key</div>
+    </div>
+    <div class="task-note">Call a local irrigation company now to book the winterization blowout. They fill up in October — don't wait until the last week. Cost: $75–120, takes 30 min. Any water left in pipes will freeze and crack them.</div>
+    <div class="howto-toggle" onclick="toggleHowto(this)"><span class="arrow">▶</span> What happens during a blowout</div>
+    <div class="howto-content">
+      <h4>What the tech does</h4>
+      <p>They connect a large air compressor to the system's blowout port (usually near the backflow preventer). Each zone is activated one at a time and compressed air is forced through the pipes at high pressure, blowing any remaining water out through the sprinkler heads. You'll see a short burst of spray from every head as each zone clears.</p>
+      <h4>Why you should hire this out (at least year one)</h4>
+      <p>The compressor required is significantly larger than a typical garage compressor — usually 50+ CFM. Underpowering the blowout leaves water in the pipes. Overpowering it can damage heads or fittings. A professional with the right equipment is worth it the first year while you're learning the system.</p>
+      <h4>After the blowout</h4>
+      <ul>
+        <li>Turn the controller to "off" or "rain delay" mode — not just the schedule, the whole system</li>
+        <li>Shut off the main supply valve to the system in the basement</li>
+        <li>Insulate the backflow preventer outside if it's exposed — foam pipe insulation from the hardware store</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-10-18" data-id="mow-oct2">
+  <div class="task-date-col"><div class="task-day">18</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Mow — start lowering blade to 2.5" for last cuts</div>
+      <div class="task-badge badge-med">Routine</div>
+    </div>
+    <div class="task-note">For the last 2–3 mows of the season, drop to 2.5". Shorter grass going into winter reduces snow mold risk. Don't go below 2".</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ NOVEMBER ═══════════════════════════════════ -->
+<div class="month-spacer"></div>
+<div id="nov" class="season-anchor"></div>
+<div class="month-header">
+  <div class="month-season-dot fall-dot"></div>
+  <div class="month-name">November 2026</div>
+</div>
+
+<div class="task-entry" data-date="2026-11-01" data-id="last-mow">
+  <div class="task-date-col"><div class="task-day">1</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Last mow of season (blade at 2.5")</div>
+      <div class="task-badge badge-med">Routine</div>
+    </div>
+    <div class="task-note">Likely your last cut — grass stops growing when soil temps drop below 50°F, usually late October to mid-November in Framingham. If it still needs a cut after this, do it. If not, you're done.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-11-08" data-id="mower-winterize">
+  <div class="task-date-col"><div class="task-day">8</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Winterize the Ryobi mower</div>
+      <div class="task-badge badge-med">Prep</div>
+    </div>
+    <div class="task-note">Electric — no oil, no spark plugs. Three things: clean the deck underside, inspect blade for nicks, store mower in garage. The batteries go inside (see December).</div>
+    <div class="howto-toggle" onclick="toggleHowto(this)"><span class="arrow">▶</span> How to do this</div>
+    <div class="howto-content">
+      <h4>Clean the deck underside</h4>
+      <p>Tilt the mower on its side (battery removed first). Use a putty knife or stiff brush to scrape caked grass clippings off the underside. A buildup of clippings unbalances airflow and can accelerate blade corrosion. Hose it down when done.</p>
+      <h4>Check the blade</h4>
+      <p>While the mower is on its side, look at the blade edges. Nicks and dings are normal. If the blade is bent, has a large chunk missing, or is deeply gouged, replace it. A Ryobi 21" replacement blade is ~$20. A dull but intact blade can be sharpened — take it to a hardware store or small engine shop for ~$10.</p>
+      <h4>Storing the mower</h4>
+      <p>Garage storage is fine. Remove the battery before storing — store batteries inside where it's above freezing.</p>
+    </div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-11-15" data-id="leaf-cleanup">
+  <div class="task-date-col"><div class="task-day">15</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Final leaf cleanup</div>
+      <div class="task-badge badge-med">Soon</div>
+    </div>
+    <div class="task-note">A thick mat of leaves left all winter can suffocate grass. Rake and bag or blow to the curb. Don't let it sit through freeze/thaw cycles — matted wet leaves breed fungus and create bare patches in spring.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-11-20" data-id="plow-check">
+  <div class="task-date-col"><div class="task-day">20</div><div class="task-dow">Fri</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Walk driveway perimeter — flag irrigation heads for plow guy</div>
+      <div class="task-badge badge-med">Track</div>
+    </div>
+    <div class="task-note">Mark any sprinkler heads near the driveway or plow path with tall orange driveway markers. $10 for a pack at any hardware store. Give your plow guy a heads-up too — literally.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ DECEMBER ═══════════════════════════════════ -->
+<div class="month-spacer"></div>
+<div id="dec" class="season-anchor"></div>
+<div class="month-header">
+  <div class="month-season-dot winter-dot"></div>
+  <div class="month-name">December 2026</div>
+</div>
+
+<div class="task-entry" data-date="2026-12-01" data-id="battery-storage">
+  <div class="task-date-col"><div class="task-day">1</div><div class="task-dow">Tue</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Store all 6 batteries inside at 40–60% charge</div>
+      <div class="task-badge badge-high">Key</div>
+    </div>
+    <div class="task-note">Biggest thing you can do to extend battery life. Press the indicator button — aim for 2–3 bars out of 4. Store somewhere above freezing (basement, interior closet). Don't leave them in the unheated garage all winter.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-12-15" data-id="ice-melt-stock">
+  <div class="task-date-col"><div class="task-day">15</div><div class="task-dow">Tue</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Stock sand-based ice melt — not rock salt near lawn edges</div>
+      <div class="task-badge badge-med">Watch</div>
+    </div>
+    <div class="task-note">Rock salt and calcium chloride will kill grass along driveways. Use "pet safe" or sand-based formulas near turf edges. Stock up before storms — stores sell out fast.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2026-12-20" data-id="spring-plan">
+  <div class="task-date-col"><div class="task-day">20</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Plan spring supply list + research snowblower</div>
+      <div class="task-badge badge-low">Plan</div>
+    </div>
+    <div class="task-note">Inventory what you have vs. what you'll need: pre-emergent, spring fertilizer, overseed mix, any replacement PGP heads. Research the Ryobi 40V snowblower — read reviews from people in actual snowy climates. Buy in spring when prices drop.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ JANUARY ═══════════════════════════════════ -->
+<div class="month-spacer"></div>
+<div id="jan" class="season-anchor"></div>
+<div class="month-header">
+  <div class="month-season-dot winter-dot"></div>
+  <div class="month-name">January 2027</div>
+</div>
+
+<div class="task-entry" data-date="2027-01-15" data-id="stay-off">
+  <div class="task-date-col"><div class="task-day">15</div><div class="task-dow">Thu</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Reminder: stay off frozen or frost-covered lawn</div>
+      <div class="task-badge badge-high">Key</div>
+    </div>
+    <div class="task-note">Walking on frozen grass snaps the blades and leaves footprint damage that persists until spring. Remind everyone — kids, guests, yourself carrying stuff to the car. The driveway is right there.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2027-01-20" data-id="gutter-check">
+  <div class="task-date-col"><div class="task-day">20</div><div class="task-dow">Tue</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Check gutters and downspout drainage</div>
+      <div class="task-badge badge-low">Bonus</div>
+    </div>
+    <div class="task-note">Ice dams from clogged gutters create water pooling at the foundation and can damage lawn edges. Walk around the house after a freeze and look for icicles forming from the gutter line — that's the sign.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ FEBRUARY ═══════════════════════════════════ -->
+<div class="month-spacer"></div>
+<div id="feb" class="season-anchor"></div>
+<div class="month-header">
+  <div class="month-season-dot winter-dot"></div>
+  <div class="month-name">February 2027</div>
+</div>
+
+<div class="task-entry" data-date="2027-02-15" data-id="order-spring">
+  <div class="task-date-col"><div class="task-day">15</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Order spring supplies before demand spikes</div>
+      <div class="task-badge badge-low">Plan</div>
+    </div>
+    <div class="task-note">Pre-emergent (crabgrass), spring fertilizer, replacement PGP heads (get a 2-pack), overseed mix. Ordering in Feb/March beats the rush and stock shortages that hit garden centers in April.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ MARCH ═══════════════════════════════════ -->
+<div class="month-spacer"></div>
+<div id="mar" class="season-anchor"></div>
+<div class="month-header">
+  <div class="month-season-dot spring-dot"></div>
+  <div class="month-name">March 2027</div>
+</div>
+
+<div class="task-entry" data-date="2027-03-15" data-id="pre-emergent">
+  <div class="task-date-col"><div class="task-day">15</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Apply crabgrass pre-emergent (when forsythia blooms)</div>
+      <div class="task-badge badge-high">Key</div>
+    </div>
+    <div class="task-note">Apply when forsythia bushes in your neighborhood bloom — that's your soil temperature signal. Scotts Halts or your Sunday plan equivalent. Important: skip this if you're overseeding in spring — pre-emergent blocks all seeds.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2027-03-20" data-id="rake-27">
+  <div class="task-date-col"><div class="task-day">20</div><div class="task-dow">Fri</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Rake out winter debris & thatch</div>
+      <div class="task-badge badge-med">Soon</div>
+    </div>
+    <div class="task-note">Same as last spring — light pass to clear matted material. Don't overdo it.</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════ APRIL ═══════════════════════════════════ -->
+<div class="month-spacer"></div>
+<div id="apr" class="season-anchor"></div>
+<div class="month-header">
+  <div class="month-season-dot spring-dot"></div>
+  <div class="month-name">April 2027</div>
+</div>
+
+<div class="task-entry" data-date="2027-04-15" data-id="irrigation-27">
+  <div class="task-date-col"><div class="task-day">15</div><div class="task-dow">Wed</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Start up irrigation system (year two)</div>
+      <div class="task-badge badge-high">Key</div>
+    </div>
+    <div class="task-note">Same process as 2026 — slow valve open, walk all zones, check all heads. By now you know the system. Consider adjusting any arcs that caused dry spots last year.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2027-04-20" data-id="mow-27">
+  <div class="task-date-col"><div class="task-day">20</div><div class="task-dow">Sun</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">First mow of 2027 — blade at 3–3.5"</div>
+      <div class="task-badge badge-high">Key</div>
+    </div>
+    <div class="task-note">You know the drill. Mow when grass hits ~3.5", blade high, dry conditions preferred.</div>
+  </div>
+</div>
+
+<div class="task-entry" data-date="2027-04-25" data-id="pest-27">
+  <div class="task-date-col"><div class="task-day">25</div><div class="task-dow">Fri</div></div>
+  <div class="task-body">
+    <div class="task-top">
+      <div class="task-check" onclick="toggleTask(this)"></div>
+      <div class="task-title" onclick="toggleTask(this.previousElementSibling)">Apply Bug Doom + Ant Adios — perimeter (year two)</div>
+      <div class="task-badge badge-high">Key</div>
+    </div>
+    <div class="task-note">First application of the 2027 season. Same approach — foundation perimeter, door frames, window sills. Reapply monthly May–September.</div>
+  </div>
+</div>
+
+</div><!-- /timeline -->
+
+<footer>
+  Tap the circle to check off a task · Tap "How to do this" for step-by-step instructions · Northeast cool-season lawn · Made with Claude
+</footer>
+
+<script>
+const STORAGE_KEY = 'yard2026_v2';
+
+function getState() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; }
+}
+function saveState(s) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); } catch {}
+}
+
+function toggleTask(checkEl) {
+  const entry = checkEl.closest('.task-entry');
+  const id = entry.dataset.id;
+  const state = getState();
+  const isDone = entry.classList.toggle('done');
+  state[id] = isDone;
+  saveState(state);
+  updateProgress();
+  applyFilter();
+}
+
+function toggleHowto(btn) {
+  btn.classList.toggle('open');
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+}
+
+function scrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+let currentFilter = 'all';
+const TODAY = new Date('2026-05-24');
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active', 'active-done'));
+  document.getElementById('filter-' + f).classList.add(f === 'done' ? 'active-done' : 'active');
+  applyFilter();
+}
+
+function applyFilter() {
+  document.querySelectorAll('.task-entry').forEach(entry => {
+    const done = entry.classList.contains('done');
+    const date = new Date(entry.dataset.date);
+    let show = true;
+    if (currentFilter === 'upcoming') show = date >= TODAY && !done;
+    else if (currentFilter === 'todo') show = !done;
+    else if (currentFilter === 'done') show = done;
+    entry.classList.toggle('hidden', !show);
+  });
+}
+
+function updateProgress() {
+  const all = document.querySelectorAll('.task-entry');
+  const done = document.querySelectorAll('.task-entry.done');
+  const pct = all.length ? Math.round((done.length / all.length) * 100) : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = done.length + ' of ' + all.length + ' done';
+}
+
+// Restore state on load
+(function init() {
+  const state = getState();
+  document.querySelectorAll('.task-entry').forEach(entry => {
+    if (state[entry.dataset.id]) entry.classList.add('done');
+  });
+  updateProgress();
+  applyFilter();
+})();
+</script>
+</body>
+</html>
