@@ -23,24 +23,30 @@ header::before{content:'';position:absolute;top:-60px;right:-60px;width:260px;he
 header h1{font-family:'Playfair Display',serif;font-size:clamp(24px,7vw,44px);font-weight:900;line-height:1.05;position:relative;z-index:1;}
 header h1 em{font-style:italic;color:#7ec893;}
 .hsub{margin-top:9px;font-size:12px;color:#bbb;font-weight:300;position:relative;z-index:1;line-height:1.6;}
+/* STICKY STACK */
+.sticky-stack{position:sticky;top:0;z-index:20;background:var(--paper);box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.sticky-top{background:var(--ink);color:white;padding:4px 16px 5px;padding-top:calc(env(safe-area-inset-top) + 4px);display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.sticky-title{font-family:'Playfair Display',serif;font-size:13px;font-weight:700;letter-spacing:.01em;}
+.sticky-title em{font-style:italic;color:#7ec893;font-weight:400;}
+.sticky-date{font-size:10px;color:#999;font-weight:500;letter-spacing:.08em;text-transform:uppercase;}
 .jump-nav{background:#222;display:flex;overflow-x:auto;border-bottom:1px solid #333;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
 .jump-nav::-webkit-scrollbar{display:none;}
-.jbtn{flex-shrink:0;padding:9px 13px;font-size:11px;font-weight:500;color:#999;border:none;background:none;cursor:pointer;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;border-bottom:3px solid transparent;}
+.jbtn{flex-shrink:0;padding:8px 12px;font-size:11px;font-weight:500;color:#999;border:none;background:none;cursor:pointer;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;border-bottom:3px solid transparent;}
 .jbtn.spring{border-color:var(--spring);color:#7ec893;}.jbtn.summer{border-color:var(--summer);color:#f5c06a;}.jbtn.fall{border-color:var(--fall);color:#e8a070;}.jbtn.winter{border-color:var(--winter);color:#8ab4d8;}
 .insight{background:#2a2a2a;border-left:4px solid #7ec893;padding:11px 16px;font-size:12px;color:#ccc;line-height:1.6;}
 .insight strong{color:white;}
-.filter-bar{padding:9px 13px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--rule);background:white;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.filter-bar{padding:8px 13px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--rule);background:white;}
 .flabel{font-size:10px;color:var(--muted);align-self:center;font-weight:500;text-transform:uppercase;letter-spacing:.1em;margin-right:2px;}
 .fbtn{font-size:11px;padding:3px 9px;border-radius:20px;border:1px solid var(--rule);background:white;cursor:pointer;font-weight:500;color:var(--muted);}
 .fbtn.active{background:var(--ink);color:white;border-color:var(--ink);}
 .fbtn.act-partial{background:#f5c06a;color:#6b4f00;border-color:#f5c06a;}
 .fbtn.act-done{background:#7ec893;color:white;border-color:#7ec893;}
-.prog-wrap{padding:9px 16px;background:white;border-bottom:1px solid var(--rule);display:flex;align-items:center;gap:10px;}
+.prog-wrap{padding:7px 16px;background:white;display:flex;align-items:center;gap:10px;}
 .prog-outer{flex:1;height:5px;background:var(--rule);border-radius:3px;overflow:hidden;}
 .prog-inner{height:100%;background:linear-gradient(90deg,#7ec893,#4a7c59);border-radius:3px;transition:width .4s;}
 .prog-text{font-size:11px;color:var(--muted);white-space:nowrap;}
 .timeline{padding:0 0 110px;max-width:720px;margin:0 auto;}
-.mhdr{display:flex;align-items:center;gap:9px;padding:20px 16px 7px;position:sticky;top:44px;z-index:8;background:var(--paper);}
+.mhdr{display:flex;align-items:center;gap:9px;padding:20px 16px 7px;background:var(--paper);}
 .mhdr::after{content:'';flex:1;height:1px;background:var(--rule);}
 .mname{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;white-space:nowrap;}
 .sdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:2px;}
@@ -88,11 +94,22 @@ header h1 em{font-style:italic;color:#7ec893;}
 .hcontent strong{color:var(--ink);}
 .mspc{height:12px;}
 .sanchor{scroll-margin-top:85px;}
-.fabg{position:fixed;bottom:calc(22px + env(safe-area-inset-bottom));right:16px;display:flex;flex-direction:column;gap:9px;z-index:100;}
-.fab{width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 16px rgba(0,0,0,.22);transition:transform .15s;}
-.fab:hover{transform:scale(1.07);}
+/* FAB group - fan out from main button */
+.fabg{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom));right:16px;display:flex;flex-direction:column-reverse;align-items:flex-end;gap:12px;z-index:100;}
+.fab{width:52px;height:52px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 18px rgba(0,0,0,.25);transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .2s,background .2s;}
+.fab:active{transform:scale(.92);}
+.fab-main{background:var(--ink);color:white;font-size:24px;z-index:2;}
+.fab-main.open{transform:rotate(45deg);background:#c0392b;}
+.fab-child{transform:scale(0);opacity:0;pointer-events:none;width:46px;height:46px;font-size:19px;position:relative;}
+.fab-child::before{content:attr(data-label);position:absolute;right:56px;top:50%;transform:translateY(-50%);background:rgba(26,26,26,.92);color:white;padding:5px 10px;border-radius:6px;font-size:11px;font-weight:500;white-space:nowrap;letter-spacing:.02em;opacity:0;transition:opacity .15s;pointer-events:none;}
+.fabg.open .fab-child{transform:scale(1);opacity:1;pointer-events:auto;}
+.fabg.open .fab-child::before{opacity:1;transition-delay:.12s;}
 .fab-shop{background:#4a7c59;color:white;}
 .fab-sum{background:#3d5a80;color:white;}
+.fab-add{background:#b8720a;color:white;}
+.fab-arch{background:#6b5b3a;color:white;}
+.fab-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .2s;z-index:99;}
+.fab-backdrop.open{opacity:1;pointer-events:auto;}
 .povl{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:flex-end;}
 .povl.open{display:flex;}
 .panel{background:white;border-radius:16px 16px 0 0;width:100%;max-height:88vh;overflow-y:auto;padding:0 0 calc(24px + env(safe-area-inset-bottom));animation:sup .25s ease;}
@@ -124,6 +141,24 @@ header h1 em{font-style:italic;color:#7ec893;}
 .sumexport{width:100%;padding:10px;background:#f6faf7;border:1px solid var(--spring-mid);border-radius:7px;font-size:10px;font-family:monospace;color:#333;resize:none;line-height:1.6;}
 .sumcopy{margin-top:9px;width:100%;padding:12px;background:var(--ink);color:white;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;letter-spacing:.03em;}
 footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-area-inset-bottom));font-size:10px;color:#bbb;border-top:1px solid var(--rule);}
+/* Add-task form */
+.addform{padding:14px 18px;}
+.addform label{display:block;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:5px;margin-top:12px;}
+.addform label:first-child{margin-top:0;}
+.addform input,.addform textarea,.addform select{width:100%;font-size:13px;font-family:'DM Sans',sans-serif;border:1px solid var(--rule);border-radius:6px;padding:9px 11px;color:var(--ink);background:#fafaf8;outline:none;}
+.addform input:focus,.addform textarea:focus,.addform select:focus{border-color:#7ec893;background:white;}
+.addform textarea{resize:none;line-height:1.5;}
+.addform .row2{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.addbtn-row{display:flex;gap:8px;margin-top:16px;}
+.addbtn{flex:1;padding:12px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;letter-spacing:.02em;}
+.addbtn-primary{background:var(--ink);color:white;}
+.addbtn-secondary{background:#f0ede8;color:#444;}
+.addform-hint{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5;}
+/* User-added task marker */
+.te.user-task{border-left:3px solid var(--summer);}
+.te.user-task .dcol{background:#fef9ee;}
+.user-badge{font-size:8px;font-weight:700;color:var(--summer);text-transform:uppercase;letter-spacing:.08em;margin-top:3px;}
+.user-delete{font-size:10px;color:#c0392b;cursor:pointer;text-decoration:underline;text-underline-offset:2px;margin-left:auto;}
 </style>
 </head>
 <body>
@@ -132,33 +167,41 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
   <h1>Yard Calendar,<br><em>Date by Date</em></h1>
   <p class="hsub">Tap circle to cycle status (none → partial → done). Add notes for next year.</p>
 </header>
-<nav class="jump-nav">
-  <button class="jbtn spring" onclick="jumpTo('may')">May</button>
-  <button class="jbtn spring" onclick="jumpTo('jun')">June</button>
-  <button class="jbtn summer" onclick="jumpTo('jul')">July</button>
-  <button class="jbtn summer" onclick="jumpTo('aug')">Aug</button>
-  <button class="jbtn fall" onclick="jumpTo('sep')">Sept</button>
-  <button class="jbtn fall" onclick="jumpTo('oct')">Oct</button>
-  <button class="jbtn fall" onclick="jumpTo('nov')">Nov</button>
-  <button class="jbtn winter" onclick="jumpTo('dec')">Dec</button>
-  <button class="jbtn winter" onclick="jumpTo('jan')">Jan</button>
-  <button class="jbtn winter" onclick="jumpTo('feb')">Feb</button>
-  <button class="jbtn spring" onclick="jumpTo('mar')">Mar '27</button>
-  <button class="jbtn spring" onclick="jumpTo('apr')">Apr '27</button>
-</nav>
-<div class="insight"><strong>Thick coarse patches:</strong> Almost certainly tall fescue clumping. The fix is in September -- spray Roundup, wait 2 weeks, aerate, overseed. Highest-impact thing you'll do all year.</div>
-<div class="filter-bar">
-  <span class="flabel">Show:</span>
-  <button class="fbtn active" id="fb-all" onclick="setFilter('all')">All</button>
-  <button class="fbtn" id="fb-upcoming" onclick="setFilter('upcoming')">Upcoming</button>
-  <button class="fbtn" id="fb-todo" onclick="setFilter('todo')">To-do</button>
-  <button class="fbtn" id="fb-partial" onclick="setFilter('partial')">Partial</button>
-  <button class="fbtn" id="fb-done" onclick="setFilter('done')">Done</button>
+<div class="insight"><strong>Thick coarse patches:</strong> Almost certainly tall fescue clumping. The fix is in September — spray Roundup, wait 2 weeks, aerate, overseed. Highest-impact thing you'll do all year.</div>
+
+<div class="sticky-stack">
+  <div class="sticky-top">
+    <div class="sticky-title">Yard <em>Calendar</em></div>
+    <div class="sticky-date">'26–'27</div>
+  </div>
+  <nav class="jump-nav">
+    <button class="jbtn spring" onclick="jumpTo('may')">May</button>
+    <button class="jbtn spring" onclick="jumpTo('jun')">June</button>
+    <button class="jbtn summer" onclick="jumpTo('jul')">July</button>
+    <button class="jbtn summer" onclick="jumpTo('aug')">Aug</button>
+    <button class="jbtn fall" onclick="jumpTo('sep')">Sept</button>
+    <button class="jbtn fall" onclick="jumpTo('oct')">Oct</button>
+    <button class="jbtn fall" onclick="jumpTo('nov')">Nov</button>
+    <button class="jbtn winter" onclick="jumpTo('dec')">Dec</button>
+    <button class="jbtn winter" onclick="jumpTo('jan')">Jan</button>
+    <button class="jbtn winter" onclick="jumpTo('feb')">Feb</button>
+    <button class="jbtn spring" onclick="jumpTo('mar')">Mar '27</button>
+    <button class="jbtn spring" onclick="jumpTo('apr')">Apr '27</button>
+  </nav>
+  <div class="filter-bar">
+    <span class="flabel">Show:</span>
+    <button class="fbtn active" id="fb-all" onclick="setFilter('all')">All</button>
+    <button class="fbtn" id="fb-upcoming" onclick="setFilter('upcoming')">Upcoming</button>
+    <button class="fbtn" id="fb-todo" onclick="setFilter('todo')">To-do</button>
+    <button class="fbtn" id="fb-partial" onclick="setFilter('partial')">Partial</button>
+    <button class="fbtn" id="fb-done" onclick="setFilter('done')">Done</button>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-outer"><div class="prog-inner" id="pbar" style="width:0%"></div></div>
+    <div class="prog-text" id="ptxt">0 done</div>
+  </div>
 </div>
-<div class="prog-wrap">
-  <div class="prog-outer"><div class="prog-inner" id="pbar" style="width:0%"></div></div>
-  <div class="prog-text" id="ptxt">0 done</div>
-</div>
+
 <div class="timeline">
 <div id="may" class="sanchor"></div>
 <div class="mhdr"><div class="sdot sd-spring"></div><div class="mname">May 2026</div></div>
@@ -181,13 +224,13 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
     <div class="tnote">Frost risk is past. Run every zone, find what survived winter before the lawn needs it.</div>
     <div class="htoggle" onclick="toggleHowto(this)"><span class="arr">▶</span> How to do this</div>
     <div class="hcontent">
-      <h4>Step 1 -- Find the main shutoff valve</h4>
+      <h4>Step 1 — Find the main shutoff valve</h4>
       <p>Usually in the basement on the supply line going to the irrigation. Also locate the backflow preventer outside near the foundation.</p>
-      <h4>Step 2 -- Open the valve slowly</h4>
+      <h4>Step 2 — Open the valve slowly</h4>
       <p>A quarter turn every few seconds. Fast opening causes water hammer that can crack fittings or pop heads off. Take 30–60 seconds to go fully open.</p>
-      <h4>Step 3 -- Check backflow preventer</h4>
+      <h4>Step 3 — Check backflow preventer</h4>
       <p>The T-shaped brass device outside. Both handle levers should be parallel to the pipes when on.</p>
-      <h4>Step 4 -- Run each zone from the controller</h4>
+      <h4>Step 4 — Run each zone from the controller</h4>
       <p>Manually activate each zone. Walk outside and watch: puddles = cracked body, heads not rising = clog, dry areas = wrong arc or clogged nozzle.</p>
       <div class="tip">⚡ Take a quick video walking each zone while it runs. Compare later if you see dry spots in summer.</div>
     </div>
@@ -200,25 +243,25 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
   <div class="dcol"><div class="dday">25</div><div class="ddow">Mon</div></div>
   <div class="tbody">
     <div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Repair broken sprinkler riser (plow damage)</div><div class="tbadge bh">Key</div></div>
-    <div class="tnote">Plow snapped the rigid riser -- the threaded connector between the underground fitting and PGP head. Bottom half is still in the ground. The head body may be reusable.</div>
+    <div class="tnote">Plow snapped the rigid riser — the threaded connector between the underground fitting and PGP head. Bottom half is still in the ground. The head body may be reusable.</div>
     <div class="htoggle" onclick="toggleHowto(this)"><span class="arr">▶</span> How to do this</div>
     <div class="hcontent">
       <h4>What you need</h4>
       <ul><li><strong>½" Sch 40 PVC threaded riser</strong> (see shopping list 🛒)</li><li>Channel-lock pliers (see shopping list 🛒)</li><li>PTFE Teflon tape (see shopping list 🛒)</li><li>Hunter PGP head only if old one is cracked</li></ul>
-      <h4>Step 1 -- Turn off that zone at the controller</h4>
-      <h4>Step 2 -- Remove the broken stub</h4>
-      <p>Dig around the stub so you can grip it. Grab with channel-locks, turn <strong>counterclockwise</strong>. If stubborn, dig a bit deeper for a better angle -- you don't want to torque the fitting below.</p>
-      <h4>Step 3 -- Measure the riser height needed</h4>
+      <h4>Step 1 — Turn off that zone at the controller</h4>
+      <h4>Step 2 — Remove the broken stub</h4>
+      <p>Dig around the stub so you can grip it. Grab with channel-locks, turn <strong>counterclockwise</strong>. If stubborn, dig a bit deeper for a better angle — you don't want to torque the fitting below.</p>
+      <h4>Step 3 — Measure the riser height needed</h4>
       <p>From top of the underground fitting to where the head should sit (~½" above grade). Common sizes: 3", 4", 6". Standard thread is ½".</p>
-      <h4>Step 4 -- Wrap threads with Teflon tape</h4>
+      <h4>Step 4 — Wrap threads with Teflon tape</h4>
       <p>2–3 wraps clockwise around the male threads. Prevents leaks and makes future removal easier.</p>
-      <h4>Step 5 -- Thread in the new riser</h4>
-      <p>Hand-thread clockwise. Hand-tight plus a half turn with pliers. <strong>Don't overtorque</strong> -- you'll crack the fitting below.</p>
-      <h4>Step 6 -- Thread on the PGP head</h4>
-      <p>Wrap top riser threads with Teflon tape, then hand-thread head on. Same rule -- hand-tight plus a half turn.</p>
-      <h4>Step 7 -- Run the zone and confirm</h4>
+      <h4>Step 5 — Thread in the new riser</h4>
+      <p>Hand-thread clockwise. Hand-tight plus a half turn with pliers. <strong>Don't overtorque</strong> — you'll crack the fitting below.</p>
+      <h4>Step 6 — Thread on the PGP head</h4>
+      <p>Wrap top riser threads with Teflon tape, then hand-thread head on. Same rule — hand-tight plus a half turn.</p>
+      <h4>Step 7 — Run the zone and confirm</h4>
       <p>Head should pop fully, rotate, no leaks at riser connections.</p>
-      <div class="tip">⚡ Check heads on either side too -- plow may have clipped more than one.</div>
+      <div class="tip">⚡ Check heads on either side too — plow may have clipped more than one.</div>
     </div>
     <div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div>
     <div class="nfield"><textarea rows="2" placeholder="e.g. needed 4&quot; riser, head reused…"></textarea></div>
@@ -239,11 +282,11 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
   <div class="dcol"><div class="dday">25</div><div class="ddow">Mon</div></div>
   <div class="tbody">
     <div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Adjust Hunter PGP arcs and radius</div><div class="tbadge bm">Tune</div></div>
-    <div class="tnote">Use your Hunter adjustment tool. Each head should reach the next head -- "head-to-head coverage" prevents dry spots.</div>
+    <div class="tnote">Use your Hunter adjustment tool. Each head should reach the next head — "head-to-head coverage" prevents dry spots.</div>
     <div class="htoggle" onclick="toggleHowto(this)"><span class="arr">▶</span> How to do this</div>
     <div class="hcontent">
       <h4>Adjusting the Arc (sweep width)</h4>
-      <ol><li>With zone running, let head rotate to its right-most stop -- this is the fixed edge.</li><li>Insert Hunter tool into the slot on top of the pop-up stem.</li><li>Clockwise = wider arc, counterclockwise = narrower. Range: 40°–360°.</li><li>Let it complete a full rotation to confirm.</li></ol>
+      <ol><li>With zone running, let head rotate to its right-most stop — this is the fixed edge.</li><li>Insert Hunter tool into the slot on top of the pop-up stem.</li><li>Clockwise = wider arc, counterclockwise = narrower. Range: 40°–360°.</li><li>Let it complete a full rotation to confirm.</li></ol>
       <h4>Adjusting the Radius (throw distance)</h4>
       <ol><li>Find the small screw in the center of the nozzle face.</li><li>Clockwise = shorter throw. Counterclockwise = longer.</li><li>Max reduction ~25%. Larger changes need a different nozzle size.</li></ol>
       <h4>Goal: head-to-head coverage</h4>
@@ -259,13 +302,13 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
   <div class="dcol"><div class="dday">25</div><div class="ddow">Mon</div></div>
   <div class="tbody">
     <div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Set controller to spring schedule</div><div class="tbadge bm">Set</div></div>
-    <div class="tnote">Spring target: 2–3 days/week, ~20 min/zone, 4–6am. Don't use previous owners' settings -- set for peak summer. Less is more in spring; overwatering invites fungus.</div>
+    <div class="tnote">Spring target: 2–3 days/week, ~20 min/zone, 4–6am. Don't use previous owners' settings — set for peak summer. Less is more in spring; overwatering invites fungus.</div>
     <div class="htoggle" onclick="toggleHowto(this)"><span class="arr">▶</span> What settings to use</div>
     <div class="hcontent">
       <h4>Spring settings</h4>
       <ul><li><strong>Start:</strong> 4:00am or 5:00am</li><li><strong>Run per zone:</strong> 18–22 min</li><li><strong>Days:</strong> Mon, Wed, Sat</li></ul>
       <h4>Rain sensor check</h4>
-      <p>Look on your eave for a small white disc. Run a zone and hold the sensor button -- it should pause. If not, the sensor may need replacing.</p>
+      <p>Look on your eave for a small white disc. Run a zone and hold the sensor button — it should pause. If not, the sensor may need replacing.</p>
       <div class="tip">⚡ Smart controller? Set it to weather-based/ET mode and let it auto-adjust for rain.</div>
     </div>
     <div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div>
@@ -276,12 +319,12 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
 <div class="te" data-date="2026-05-25" data-id="mow-start">
   <div class="dcol"><div class="dday">25</div><div class="ddow">Mon</div></div>
   <div class="tbody">
-    <div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">First mow -- Ryobi blade at 3–3.5"</div><div class="tbadge bh">Key</div></div>
+    <div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">First mow — Ryobi blade at 3–3.5"</div><div class="tbadge bh">Key</div></div>
     <div class="tnote">Mow high all season. Tall grass shades soil, retains moisture, crowds out weeds. Never cut more than ⅓ of blade height at once. Mow dry.</div>
     <div class="htoggle" onclick="toggleHowto(this)"><span class="arr">▶</span> Ryobi height + mowing tips</div>
     <div class="hcontent">
       <h4>Setting Ryobi 21" height</h4>
-      <p>Single lever on the deck side. Position 4 or 5 -- about 3 to 3.5 inches on most Ryobi 21" models.</p>
+      <p>Single lever on the deck side. Position 4 or 5 — about 3 to 3.5 inches on most Ryobi 21" models.</p>
       <h4>The ⅓ rule</h4>
       <p>Never cut more than one-third of the blade in one mow. If grass is 4.5" tall, don't cut below 3".</p>
       <h4>Frequency guide</h4>
@@ -297,7 +340,7 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
   <div class="dcol"><div class="dday">25</div><div class="ddow">Mon</div></div>
   <div class="tbody">
     <div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Check and replace door sweeps if needed</div><div class="tbadge bl">Seal</div></div>
-    <div class="tnote">Main entry for wolf spiders and ants. Slide paper under each exterior door -- if it passes easily, sweep needs replacing. $10–15 at any hardware store.</div>
+    <div class="tnote">Main entry for wolf spiders and ants. Slide paper under each exterior door — if it passes easily, sweep needs replacing. $10–15 at any hardware store.</div>
     <div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div>
     <div class="nfield"><textarea rows="2" placeholder="e.g. garage side door gap…"></textarea></div>
   </div>
@@ -306,8 +349,8 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
 <div class="te" data-date="2026-05-25" data-id="pest-may">
   <div class="dcol"><div class="dday">25</div><div class="ddow">Mon</div></div>
   <div class="tbody">
-    <div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Apply Sunday Bug Doom + Ant Adios -- perimeter</div><div class="tbadge bh">Key</div></div>
-    <div class="tnote">Bug Doom: 2–3 ft band around full foundation + door frames + window sills. Ant Adios pellets: around foundation, walkways, entry points. Reapply monthly -- pyrethrin breaks down fast.</div>
+    <div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Apply Sunday Bug Doom + Ant Adios — perimeter</div><div class="tbadge bh">Key</div></div>
+    <div class="tnote">Bug Doom: 2–3 ft band around full foundation + door frames + window sills. Ant Adios pellets: around foundation, walkways, entry points. Reapply monthly — pyrethrin breaks down fast.</div>
     <div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div>
     <div class="nfield"><textarea rows="2" placeholder="e.g. full perimeter done, took 20 min…"></textarea></div>
   </div>
@@ -317,7 +360,7 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
   <div class="dcol"><div class="dday">30</div><div class="ddow">Sat</div></div>
   <div class="tbody">
     <div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Apply spring fertilizer (light)</div><div class="tbadge bl">Nice</div></div>
-    <div class="tnote">Slow-release nitrogen (look for "30-0-4" style). Check Sunday lawn plan first -- may already be included. Don't overdo spring; fall is the critical feeding season.</div>
+    <div class="tnote">Slow-release nitrogen (look for "30-0-4" style). Check Sunday lawn plan first — may already be included. Don't overdo spring; fall is the critical feeding season.</div>
     <div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div>
     <div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div>
   </div>
@@ -327,7 +370,7 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
   <div class="dcol"><div class="dday">30</div><div class="ddow">Sat</div></div>
   <div class="tbody">
     <div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Refresh mulch in flower beds</div><div class="tbadge bl">Nice</div></div>
-    <div class="tnote">2–3 inch layer. Keeps moisture in and weeds out. Don't pile against plant stems or tree trunks -- causes rot.</div>
+    <div class="tnote">2–3 inch layer. Keeps moisture in and weeds out. Don't pile against plant stems or tree trunks — causes rot.</div>
     <div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div>
     <div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div>
   </div>
@@ -363,13 +406,13 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
 
 <div class="te" data-date="2026-07-01" data-id="pest-jul"><div class="dcol"><div class="dday">1</div><div class="ddow">Wed</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Reapply Bug Doom + Ant Adios</div><div class="tbadge bm">Pest</div></div><div class="tnote">Monthly. Foundation perimeter + door frames. 15 min.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
-<div class="te" data-date="2026-07-05" data-id="mow-jul1"><div class="dcol"><div class="dday">5</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Mow if needed -- check growth first</div><div class="tbadge bm">Routine</div></div><div class="tnote">Summer growth slows. Mow every 7–10 days. If lawn looks tan/dormant, skip -- dormant grass doesn't need cutting.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
+<div class="te" data-date="2026-07-05" data-id="mow-jul1"><div class="dcol"><div class="dday">5</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Mow if needed — check growth first</div><div class="tbadge bm">Routine</div></div><div class="tnote">Summer growth slows. Mow every 7–10 days. If lawn looks tan/dormant, skip — dormant grass doesn't need cutting.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
 <div class="te" data-date="2026-07-12" data-id="head-check-jul"><div class="dcol"><div class="dday">12</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Mid-season irrigation head check</div><div class="tbadge bl">Check</div></div><div class="tnote">Run each zone and walk it. Dry streaks = head tilted or arc off. A head 20° off shows as a dry patch by August.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
 <div class="te" data-date="2026-07-15" data-id="flag-patches"><div class="dcol"><div class="dday">15</div><div class="ddow">Wed</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Flag the coarse/thick grass patches</div><div class="tbadge bm">Plan</div></div><div class="tnote">Lawn flags or photo map. These get killed and reseeded in September. Knowing exactly where they are now saves time in fall.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="e.g. 3 patches: left of driveway, back corner, side gate…"></textarea></div></div></div>
 
-<div class="te" data-date="2026-07-19" data-id="mow-jul2"><div class="dcol"><div class="dday">19</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Mow if needed</div><div class="tbadge bm">Routine</div></div><div class="tnote">Skip if dormant. Tan/straw color in July is normal -- not dead. Bounces back in September.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
+<div class="te" data-date="2026-07-19" data-id="mow-jul2"><div class="dcol"><div class="dday">19</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Mow if needed</div><div class="tbadge bm">Routine</div></div><div class="tnote">Skip if dormant. Tan/straw color in July is normal — not dead. Bounces back in September.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
 <div class="mspc"></div><div id="aug" class="sanchor"></div>
 <div class="mhdr"><div class="sdot sd-summer"></div><div class="mname">August 2026</div></div>
@@ -380,15 +423,15 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
   <div class="dcol"><div class="dday">10</div><div class="ddow">Mon</div></div>
   <div class="tbody">
     <div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Spray Roundup on coarse grass patches</div><div class="tbadge bh">Key</div></div>
-    <div class="tnote">Apply glyphosate to flagged patches. Wait 2 full weeks before disturbing soil. Patches will turn brown -- that's correct, root system needs to die.</div>
+    <div class="tnote">Apply glyphosate to flagged patches. Wait 2 full weeks before disturbing soil. Patches will turn brown — that's correct, root system needs to die.</div>
     <div class="htoggle" onclick="toggleHowto(this)"><span class="arr">▶</span> How to do this</div>
     <div class="hcontent">
       <h4>What you need</h4>
-      <ul><li>Roundup or generic glyphosate + pump sprayer (or RTU bottle for small areas)</li><li>Calm dry day -- no rain for 24 hrs after, no wind</li></ul>
+      <ul><li>Roundup or generic glyphosate + pump sprayer (or RTU bottle for small areas)</li><li>Calm dry day — no rain for 24 hrs after, no wind</li></ul>
       <h4>Apply</h4>
-      <p>Spray patches thoroughly -- wet all blades but don't let it run onto healthy grass. It's systemic; travels from blade to root. Takes 7–14 days. Don't re-spray if still green after a few days -- it's working.</p>
+      <p>Spray patches thoroughly — wet all blades but don't let it run onto healthy grass. It's systemic; travels from blade to root. Takes 7–14 days. Don't re-spray if still green after a few days — it's working.</p>
       <h4>Wait 2 full weeks minimum</h4>
-      <p>Mark August 24 as earliest you can seed. Seeding too early wastes seed -- roots may still be alive underground.</p>
+      <p>Mark August 24 as earliest you can seed. Seeding too early wastes seed — roots may still be alive underground.</p>
       <div class="tip">⚡ Pets and kids off until dry (~30–60 min). After that it's bound to soil and inert.</div>
     </div>
     <div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div>
@@ -399,7 +442,7 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
 <div class="te" data-date="2026-08-17" data-id="mow-aug"><div class="dcol"><div class="dday">17</div><div class="ddow">Mon</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Mow around treated patches</div><div class="tbadge bm">Routine</div></div><div class="tnote">Mow the rest of lawn normally. Avoid running over the treated patches.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
 <div class="mspc"></div><div id="sep" class="sanchor"></div>
-<div class="mhdr"><div class="sdot sd-fall"></div><div class="mname">September 2026 -- Most Important Month</div></div>
+<div class="mhdr"><div class="sdot sd-fall"></div><div class="mname">September 2026 — Most Important Month</div></div>
 
 <div class="te" data-date="2026-09-01" data-id="pest-sep"><div class="dcol"><div class="dday">1</div><div class="ddow">Tue</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Reapply Bug Doom + Ant Adios (last monthly)</div><div class="tbadge bm">Pest</div></div><div class="tnote">Last monthly application before fall. Foundation perimeter + door frames.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
@@ -407,15 +450,15 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
   <div class="dcol"><div class="dday">6</div><div class="ddow">Sun</div></div>
   <div class="tbody">
     <div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Aerate the entire lawn</div><div class="tbadge bh">Key</div></div>
-    <div class="tnote">Rent a plug aerator (~$80/day) or hire out. Do before seeding -- holes dramatically improve seed-to-soil contact.</div>
+    <div class="tnote">Rent a plug aerator (~$80/day) or hire out. Do before seeding — holes dramatically improve seed-to-soil contact.</div>
     <div class="htoggle" onclick="toggleHowto(this)"><span class="arr">▶</span> How to do this</div>
     <div class="hcontent">
       <h4>Plug vs spike aerator</h4>
-      <p><strong>Plug aerator</strong> pulls out soil cores -- this is what you want. Spike aerators poke holes and can compact surrounding soil. Rent at Home Depot or Sunbelt.</p>
+      <p><strong>Plug aerator</strong> pulls out soil cores — this is what you want. Spike aerators poke holes and can compact surrounding soil. Rent at Home Depot or Sunbelt.</p>
       <h4>Before you aerate</h4>
-      <ul><li>Water lawn 1–2 days before -- tines penetrate moist soil far better than dry</li><li>Flag shallow irrigation heads with markers so you don't drive over them</li></ul>
+      <ul><li>Water lawn 1–2 days before — tines penetrate moist soil far better than dry</li><li>Flag shallow irrigation heads with markers so you don't drive over them</li></ul>
       <h4>How to run it</h4>
-      <p>Overlapping passes like mowing. At least once over the whole lawn; twice in compacted areas. Leave soil plugs on the lawn -- they break down in 1–2 weeks.</p>
+      <p>Overlapping passes like mowing. At least once over the whole lawn; twice in compacted areas. Leave soil plugs on the lawn — they break down in 1–2 weeks.</p>
       <div class="tip">⚡ Seed immediately after. The holes are perfect seed pockets.</div>
     </div>
     <div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div>
@@ -427,40 +470,40 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
   <div class="dcol"><div class="dday">6</div><div class="ddow">Sun</div></div>
   <div class="tbody">
     <div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Overseed dead patches + thin areas</div><div class="tbadge bh">Key</div></div>
-    <div class="tnote">Quality KBG/fescue blend ("Northeast" or "sun & shade" mix). Scratch up killed patches to expose bare soil -- seed needs soil contact to germinate.</div>
+    <div class="tnote">Quality KBG/fescue blend ("Northeast" or "sun & shade" mix). Scratch up killed patches to expose bare soil — seed needs soil contact to germinate.</div>
     <div class="htoggle" onclick="toggleHowto(this)"><span class="arr">▶</span> How to do this</div>
     <div class="hcontent">
       <h4>For killed patches</h4>
       <ol><li>Hard rake to scratch up dead material and expose bare soil</li><li>Apply seed at 4–6 lbs per 1,000 sq ft</li><li>Lightly rake seed into top ¼" of soil</li><li>Apply thin layer of peat moss or starter fertilizer on top</li></ol>
       <h4>For thin areas (broadcast)</h4>
-      <p>Use a broadcast spreader at half the "new lawn" rate. Aeration holes catch seed -- no raking needed.</p>
+      <p>Use a broadcast spreader at half the "new lawn" rate. Aeration holes catch seed — no raking needed.</p>
       <h4>Keeping it moist</h4>
-      <p>New seed must stay consistently moist for 2–3 weeks. Water lightly every day -- just enough to keep top inch moist. Once green fuzz appears, back off to every other day.</p>
-      <div class="tip">⚡ Don't mow seedlings until they're 3" tall -- usually 3–4 weeks.</div>
+      <p>New seed must stay consistently moist for 2–3 weeks. Water lightly every day — just enough to keep top inch moist. Once green fuzz appears, back off to every other day.</p>
+      <div class="tip">⚡ Don't mow seedlings until they're 3" tall — usually 3–4 weeks.</div>
     </div>
     <div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div>
     <div class="nfield"><textarea rows="2" placeholder="e.g. used Jonathan Green mix, 3 patches…"></textarea></div>
   </div>
 </div>
 
-<div class="te" data-date="2026-09-06" data-id="starter-fert"><div class="dcol"><div class="dday">6</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Apply starter fertilizer over seeded areas</div><div class="tbadge bh">Key</div></div><div class="tnote">High phosphorus starter (like 12-24-8). Apply right after seeding. Don't use regular fertilizer -- it burns seedlings.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
+<div class="te" data-date="2026-09-06" data-id="starter-fert"><div class="dcol"><div class="dday">6</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Apply starter fertilizer over seeded areas</div><div class="tbadge bh">Key</div></div><div class="tnote">High phosphorus starter (like 12-24-8). Apply right after seeding. Don't use regular fertilizer — it burns seedlings.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
-<div class="te" data-date="2026-09-10" data-id="ph-test"><div class="dcol"><div class="dday">10</div><div class="ddow">Thu</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Soil pH test</div><div class="tbadge bl">Smart</div></div><div class="tnote">$15 kit from any garden center. Northeast soils often run acidic. If pH below 6.0, apply lime this fall -- takes months to work.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="e.g. pH was 5.8, applied 40lb lime…"></textarea></div></div></div>
+<div class="te" data-date="2026-09-10" data-id="ph-test"><div class="dcol"><div class="dday">10</div><div class="ddow">Thu</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Soil pH test</div><div class="tbadge bl">Smart</div></div><div class="tnote">$15 kit from any garden center. Northeast soils often run acidic. If pH below 6.0, apply lime this fall — takes months to work.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="e.g. pH was 5.8, applied 40lb lime…"></textarea></div></div></div>
 
-<div class="te" data-date="2026-09-20" data-id="fall-fert"><div class="dcol"><div class="dday">20</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Apply fall (winterizer) fertilizer -- most important of the year</div><div class="tbadge bh">Key</div></div><div class="tnote">Winterizer blend -- higher potassium (3rd number) builds root strength for next year. More important than any spring feeding.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="e.g. used Sunday winterizer…"></textarea></div></div></div>
+<div class="te" data-date="2026-09-20" data-id="fall-fert"><div class="dcol"><div class="dday">20</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Apply fall (winterizer) fertilizer — most important of the year</div><div class="tbadge bh">Key</div></div><div class="tnote">Winterizer blend — higher potassium (3rd number) builds root strength for next year. More important than any spring feeding.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="e.g. used Sunday winterizer…"></textarea></div></div></div>
 
-<div class="te" data-date="2026-09-27" data-id="mow-sep"><div class="dcol"><div class="dday">27</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Mow established areas (avoid new seedlings)</div><div class="tbadge bm">Routine</div></div><div class="tnote">Keep at 3–3.5". Avoid new seedlings -- fragile until 3" tall.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
+<div class="te" data-date="2026-09-27" data-id="mow-sep"><div class="dcol"><div class="dday">27</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Mow established areas (avoid new seedlings)</div><div class="tbadge bm">Routine</div></div><div class="tnote">Keep at 3–3.5". Avoid new seedlings — fragile until 3" tall.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
 <div class="mspc"></div><div id="oct" class="sanchor"></div>
 <div class="mhdr"><div class="sdot sd-fall"></div><div class="mname">October 2026</div></div>
 
-<div class="te" data-date="2026-10-04" data-id="mow-oct1"><div class="dcol"><div class="dday">4</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Mow + mulch-mow leaves</div><div class="tbadge bm">Routine</div></div><div class="tnote">Light leaf coverage: mulch in place by mowing -- free fertilizer. Heavy accumulation: bag or blow.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
+<div class="te" data-date="2026-10-04" data-id="mow-oct1"><div class="dcol"><div class="dday">4</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Mow + mulch-mow leaves</div><div class="tbadge bm">Routine</div></div><div class="tnote">Light leaf coverage: mulch in place by mowing — free fertilizer. Heavy accumulation: bag or blow.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
 <div class="te" data-date="2026-10-15" data-id="irrigate-off">
   <div class="dcol"><div class="dday">15</div><div class="ddow">Thu</div></div>
   <div class="tbody">
-    <div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Schedule irrigation blowout -- before Oct 31</div><div class="tbadge bh">Key</div></div>
-    <div class="tnote">Call a local irrigation company now -- they fill up in October. Cost: $75–120, 30 min. Water left in pipes will freeze and crack them.</div>
+    <div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Schedule irrigation blowout — before Oct 31</div><div class="tbadge bh">Key</div></div>
+    <div class="tnote">Call a local irrigation company now — they fill up in October. Cost: $75–120, 30 min. Water left in pipes will freeze and crack them.</div>
     <div class="htoggle" onclick="toggleHowto(this)"><span class="arr">▶</span> What happens during a blowout</div>
     <div class="hcontent">
       <h4>What the tech does</h4>
@@ -468,14 +511,14 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
       <h4>Why hire it out</h4>
       <p>The required compressor is much larger than a typical garage unit. Underpowering leaves water in pipes. Overpowering damages heads. Worth hiring year one.</p>
       <h4>After the blowout</h4>
-      <ul><li>Controller to "off" -- the whole system, not just the schedule</li><li>Shut off main supply valve in basement</li><li>Insulate the backflow preventer outside with foam pipe insulation</li></ul>
+      <ul><li>Controller to "off" — the whole system, not just the schedule</li><li>Shut off main supply valve in basement</li><li>Insulate the backflow preventer outside with foam pipe insulation</li></ul>
     </div>
     <div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div>
     <div class="nfield"><textarea rows="2" placeholder="e.g. booked XYZ Irrigation Oct 22…"></textarea></div>
   </div>
 </div>
 
-<div class="te" data-date="2026-10-18" data-id="mow-oct2"><div class="dcol"><div class="dday">18</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Mow -- start lowering blade to 2.5" for final cuts</div><div class="tbadge bm">Routine</div></div><div class="tnote">Last 2–3 mows of season: drop to 2.5". Shorter grass reduces snow mold risk. Don't go below 2".</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
+<div class="te" data-date="2026-10-18" data-id="mow-oct2"><div class="dcol"><div class="dday">18</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Mow — start lowering blade to 2.5" for final cuts</div><div class="tbadge bm">Routine</div></div><div class="tnote">Last 2–3 mows of season: drop to 2.5". Shorter grass reduces snow mold risk. Don't go below 2".</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
 <div class="mspc"></div><div id="nov" class="sanchor"></div>
 <div class="mhdr"><div class="sdot sd-fall"></div><div class="mname">November 2026</div></div>
@@ -486,7 +529,7 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
   <div class="dcol"><div class="dday">8</div><div class="ddow">Sun</div></div>
   <div class="tbody">
     <div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Winterize the Ryobi mower</div><div class="tbadge bm">Prep</div></div>
-    <div class="tnote">Electric -- no oil, no spark plugs. Three things: clean deck underside, inspect blade, store in garage. Batteries go inside.</div>
+    <div class="tnote">Electric — no oil, no spark plugs. Three things: clean deck underside, inspect blade, store in garage. Batteries go inside.</div>
     <div class="htoggle" onclick="toggleHowto(this)"><span class="arr">▶</span> How to do this</div>
     <div class="hcontent">
       <h4>Clean the deck underside</h4>
@@ -494,7 +537,7 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
       <h4>Check the blade</h4>
       <p>Nicks and dings are normal. Bent blade, large chunk missing, or deep gouges → replace. Ryobi 21" blade ~$20. Dull but intact → sharpen (~$10 at hardware store).</p>
       <h4>Storage</h4>
-      <p>Garage is fine for the mower body. Remove battery before storing -- store all 6 batteries inside above freezing.</p>
+      <p>Garage is fine for the mower body. Remove battery before storing — store all 6 batteries inside above freezing.</p>
     </div>
     <div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div>
     <div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div>
@@ -508,18 +551,18 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
 <div class="mspc"></div><div id="dec" class="sanchor"></div>
 <div class="mhdr"><div class="sdot sd-winter"></div><div class="mname">December 2026</div></div>
 
-<div class="te" data-date="2026-12-01" data-id="battery-storage"><div class="dcol"><div class="dday">1</div><div class="ddow">Tue</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Store all 6 batteries inside at 40–60% charge</div><div class="tbadge bh">Key</div></div><div class="tnote">Biggest thing you can do for battery life. Press indicator -- aim for 2–3 bars out of 4. Above freezing (basement, closet). Don't leave in unheated garage all winter.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
+<div class="te" data-date="2026-12-01" data-id="battery-storage"><div class="dcol"><div class="dday">1</div><div class="ddow">Tue</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Store all 6 batteries inside at 40–60% charge</div><div class="tbadge bh">Key</div></div><div class="tnote">Biggest thing you can do for battery life. Press indicator — aim for 2–3 bars out of 4. Above freezing (basement, closet). Don't leave in unheated garage all winter.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
 <div class="te" data-date="2026-12-15" data-id="ice-melt-stock"><div class="dcol"><div class="dday">15</div><div class="ddow">Tue</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Stock sand-based ice melt for lawn edges</div><div class="tbadge bm">Watch</div></div><div class="tnote">Rock salt and calcium chloride kill grass along driveways. Use "pet safe" or sand-based near turf edges. Stock before storms.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
-<div class="te" data-date="2026-12-20" data-id="spring-plan"><div class="dcol"><div class="dday">20</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Plan spring supply list + research snowblower</div><div class="tbadge bl">Plan</div></div><div class="tnote">Inventory what you have vs. need. Research Ryobi 40V snowblower -- read reviews from snowy climates. Buy in spring when prices drop.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
+<div class="te" data-date="2026-12-20" data-id="spring-plan"><div class="dcol"><div class="dday">20</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Plan spring supply list + research snowblower</div><div class="tbadge bl">Plan</div></div><div class="tnote">Inventory what you have vs. need. Research Ryobi 40V snowblower — read reviews from snowy climates. Buy in spring when prices drop.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
 <div class="mspc"></div><div id="jan" class="sanchor"></div>
 <div class="mhdr"><div class="sdot sd-winter"></div><div class="mname">January 2027</div></div>
 
 <div class="te" data-date="2027-01-15" data-id="stay-off"><div class="dcol"><div class="dday">15</div><div class="ddow">Thu</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Reminder: stay off frozen/frost-covered lawn</div><div class="tbadge bh">Key</div></div><div class="tnote">Walking on frozen grass snaps blades and leaves footprint damage that persists until spring. Remind everyone.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
-<div class="te" data-date="2027-01-20" data-id="gutter-check"><div class="dcol"><div class="dday">20</div><div class="ddow">Tue</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Check gutters and downspout drainage</div><div class="tbadge bl">Bonus</div></div><div class="tnote">Ice dams from clogged gutters damage lawn edges. Walk the house after a freeze -- icicles from the gutter line is the sign.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
+<div class="te" data-date="2027-01-20" data-id="gutter-check"><div class="dcol"><div class="dday">20</div><div class="ddow">Tue</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Check gutters and downspout drainage</div><div class="tbadge bl">Bonus</div></div><div class="tnote">Ice dams from clogged gutters damage lawn edges. Walk the house after a freeze — icicles from the gutter line is the sign.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
 <div class="mspc"></div><div id="feb" class="sanchor"></div>
 <div class="mhdr"><div class="sdot sd-winter"></div><div class="mname">February 2027</div></div>
@@ -529,24 +572,27 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
 <div class="mspc"></div><div id="mar" class="sanchor"></div>
 <div class="mhdr"><div class="sdot sd-spring"></div><div class="mname">March 2027</div></div>
 
-<div class="te" data-date="2027-03-15" data-id="pre-emergent"><div class="dcol"><div class="dday">15</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Apply crabgrass pre-emergent (when forsythia blooms)</div><div class="tbadge bh">Key</div></div><div class="tnote">Apply when forsythia bushes bloom -- soil temp signal. Scotts Halts or Sunday plan equivalent. Skip if overseeding in spring.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
+<div class="te" data-date="2027-03-15" data-id="pre-emergent"><div class="dcol"><div class="dday">15</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Apply crabgrass pre-emergent (when forsythia blooms)</div><div class="tbadge bh">Key</div></div><div class="tnote">Apply when forsythia bushes bloom — soil temp signal. Scotts Halts or Sunday plan equivalent. Skip if overseeding in spring.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
-<div class="te" data-date="2027-03-20" data-id="rake-27"><div class="dcol"><div class="dday">20</div><div class="ddow">Fri</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Rake out winter debris &amp; thatch</div><div class="tbadge bm">Soon</div></div><div class="tnote">Same as last spring -- light pass to clear matted material. Don't overdo it.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
+<div class="te" data-date="2027-03-20" data-id="rake-27"><div class="dcol"><div class="dday">20</div><div class="ddow">Fri</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Rake out winter debris &amp; thatch</div><div class="tbadge bm">Soon</div></div><div class="tnote">Same as last spring — light pass to clear matted material. Don't overdo it.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
 <div class="mspc"></div><div id="apr" class="sanchor"></div>
 <div class="mhdr"><div class="sdot sd-spring"></div><div class="mname">April 2027</div></div>
 
-<div class="te" data-date="2027-04-15" data-id="irrigation-27"><div class="dcol"><div class="dday">15</div><div class="ddow">Wed</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Start up irrigation system (year two)</div><div class="tbadge bh">Key</div></div><div class="tnote">Same process as 2026 -- slow valve open, walk all zones, check all heads. You know the system now. Adjust any arcs that caused dry spots last year.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
+<div class="te" data-date="2027-04-15" data-id="irrigation-27"><div class="dcol"><div class="dday">15</div><div class="ddow">Wed</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Start up irrigation system (year two)</div><div class="tbadge bh">Key</div></div><div class="tnote">Same process as 2026 — slow valve open, walk all zones, check all heads. You know the system now. Adjust any arcs that caused dry spots last year.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
-<div class="te" data-date="2027-04-20" data-id="mow-27"><div class="dcol"><div class="dday">20</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">First mow of 2027 -- blade at 3–3.5"</div><div class="tbadge bh">Key</div></div><div class="tnote">Mow when grass hits ~3.5". Blade high, mow dry.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
+<div class="te" data-date="2027-04-20" data-id="mow-27"><div class="dcol"><div class="dday">20</div><div class="ddow">Sun</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">First mow of 2027 — blade at 3–3.5"</div><div class="tbadge bh">Key</div></div><div class="tnote">Mow when grass hits ~3.5". Blade high, mow dry.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
-<div class="te" data-date="2027-04-25" data-id="pest-27"><div class="dcol"><div class="dday">25</div><div class="ddow">Fri</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Apply Bug Doom + Ant Adios -- perimeter (year two)</div><div class="tbadge bh">Key</div></div><div class="tnote">First 2027 application. Foundation perimeter, door frames, window sills. Reapply monthly May–September.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
+<div class="te" data-date="2027-04-25" data-id="pest-27"><div class="dcol"><div class="dday">25</div><div class="ddow">Fri</div></div><div class="tbody"><div class="ttop"><div class="sbtn" onclick="cycleStatus(this)"></div><div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">Apply Bug Doom + Ant Adios — perimeter (year two)</div><div class="tbadge bh">Key</div></div><div class="tnote">First 2027 application. Foundation perimeter, door frames, window sills. Reapply monthly May–September.</div><div class="srow"><div class="spills"><span class="spill" data-val="none" onclick="setPill(this)">Not done</span><span class="spill" data-val="partial" onclick="setPill(this)">Partial</span><span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span></div><span class="ntoggle" onclick="toggleNote(this)">+ note</span></div><div class="nfield"><textarea rows="2" placeholder="notes…"></textarea></div></div></div>
 
 </div><!-- /timeline -->
 
-<div class="fabg">
-  <button class="fab fab-sum" onclick="openPanel('summary')" title="Year-End Summary">📋</button>
-  <button class="fab fab-shop" onclick="openPanel('shop')" title="Shopping List">🛒</button>
+<div class="fab-backdrop" id="fab-backdrop" onclick="closeFabs()"></div>
+<div class="fabg" id="fabg">
+  <button class="fab fab-child fab-arch" data-label="Year-End Summary" onclick="openPanel('summary');closeFabs()">📋</button>
+  <button class="fab fab-child fab-add" data-label="Add a Task" onclick="openPanel('addtask');closeFabs()">✏️</button>
+  <button class="fab fab-child fab-sum" data-label="Shopping List" onclick="openPanel('shop');closeFabs()">🛒</button>
+  <button class="fab fab-main" id="fab-main" onclick="toggleFabs()">+</button>
 </div>
 
 <div class="povl" id="panel-shop" onclick="closePanelOut(event,'panel-shop')">
@@ -579,7 +625,7 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
       <div class="sitem">
         <div class="schk" onclick="toggleShop(this)" data-sid="hunter-tool"></div>
         <div class="semoji">🗝️</div>
-        <div class="sibody"><div class="siname">Hunter Rotor Adjustment Tool</div><div class="sinote">Key-shaped tool for adjusting arc and radius on PGP heads. You mentioned you're getting one -- confirm flat-key style fits the slot.</div><a class="slink" href="https://www.amazon.com/s?k=hunter+rotor+adjustment+tool+pgp" target="_blank">Search Amazon</a></div>
+        <div class="sibody"><div class="siname">Hunter Rotor Adjustment Tool</div><div class="sinote">Key-shaped tool for adjusting arc and radius on PGP heads. You mentioned you're getting one — confirm flat-key style fits the slot.</div><a class="slink" href="https://www.amazon.com/s?k=hunter+rotor+adjustment+tool+pgp" target="_blank">Search Amazon</a></div>
       </div>
     </div>
 
@@ -588,17 +634,17 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
       <div class="sitem">
         <div class="schk" onclick="toggleShop(this)" data-sid="bugdoom"></div>
         <div class="semoji">🕷️</div>
-        <div class="sibody"><div class="siname">Sunday Bug Doom -- monitor supply</div><div class="sinote">Already purchased. Reapply monthly May–Sept. Reorder before September if running low.</div></div>
+        <div class="sibody"><div class="siname">Sunday Bug Doom — monitor supply</div><div class="sinote">Already purchased. Reapply monthly May–Sept. Reorder before September if running low.</div></div>
       </div>
       <div class="sitem">
         <div class="schk" onclick="toggleShop(this)" data-sid="antadios"></div>
         <div class="semoji">🐜</div>
-        <div class="sibody"><div class="siname">Sunday Ant Adios -- monitor supply</div><div class="sinote">Already purchased. Scatter monthly May–Sept. Reorder if running low by August.</div></div>
+        <div class="sibody"><div class="siname">Sunday Ant Adios — monitor supply</div><div class="sinote">Already purchased. Scatter monthly May–Sept. Reorder if running low by August.</div></div>
       </div>
       <div class="sitem">
         <div class="schk" onclick="toggleShop(this)" data-sid="doorsweep"></div>
         <div class="semoji">🚪</div>
-        <div class="sibody"><div class="siname">Rubber Door Sweep (if needed)</div><div class="sinote">Check exterior doors first. Slide paper underneath -- if it passes through easily, needs replacing. Measure door width before buying. ~$10–15.</div><a class="slink" href="https://www.amazon.com/s?k=door+draft+stopper+sweep+exterior" target="_blank">Search Amazon</a></div>
+        <div class="sibody"><div class="siname">Rubber Door Sweep (if needed)</div><div class="sinote">Check exterior doors first. Slide paper underneath — if it passes through easily, needs replacing. Measure door width before buying. ~$10–15.</div><a class="slink" href="https://www.amazon.com/s?k=door+draft+stopper+sweep+exterior" target="_blank">Search Amazon</a></div>
       </div>
     </div>
 
@@ -641,7 +687,43 @@ footer{text-align:center;padding:22px 18px;padding-bottom:calc(22px + env(safe-a
   </div>
 </div>
 
-<footer>Tap circle to cycle status · 🛒 shopping list · 📋 year-end summary · Northeast cool-season lawn · Made with Claude</footer>
+<div class="povl" id="panel-addtask" onclick="closePanelOut(event,'panel-addtask')">
+  <div class="panel">
+    <div class="phandle"></div>
+    <div class="phdr"><div class="ptitle">✏️ Add a Task</div><button class="pclose" onclick="closePanel('panel-addtask')">×</button></div>
+    <div class="addform">
+      <label>What did you do?</label>
+      <input type="text" id="add-title" placeholder="e.g. Patched bare spot under maple tree" maxlength="120">
+
+      <div class="row2">
+        <div>
+          <label>Date</label>
+          <input type="date" id="add-date" value="2026-05-25">
+        </div>
+        <div>
+          <label>Status</label>
+          <select id="add-status">
+            <option value="done">Done ✓</option>
+            <option value="partial">Partial</option>
+            <option value="none">Not done yet</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Note (optional)</label>
+      <textarea id="add-note" rows="3" placeholder="Anything worth remembering for next year…"></textarea>
+
+      <p class="addform-hint">Custom tasks show up inline in the timeline on the date you set, marked with an orange stripe so you remember they're yours.</p>
+
+      <div class="addbtn-row">
+        <button class="addbtn addbtn-secondary" onclick="closePanel('panel-addtask')">Cancel</button>
+        <button class="addbtn addbtn-primary" onclick="saveNewTask()">Add Task</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>Tap ＋ for shop list, year-end summary, or to add your own task · Made with Claude</footer>
 
 <script>
 const SK = 'yard2026_v3';
@@ -790,22 +872,24 @@ function buildSummary() {
     const id = entry.dataset.id;
     const date = entry.dataset.date;
     const title = entry.querySelector('.ttitle').textContent.trim();
+    const isUser = entry.classList.contains('user-task');
     const s = (state[id] && state[id].status) || 'none';
     const note = (state[id] && state[id].note) || '';
     if (s === 'done') done++;
     else if (s === 'partial') partial++;
     else skip++;
     const noteStr = note ? ' | note: "' + note + '"' : '';
-    lines.push('[' + s.toUpperCase().padEnd(7) + '] ' + date + ' -- ' + title + noteStr);
+    const tag = isUser ? '+USER' : 'TASK ';
+    lines.push('[' + s.toUpperCase().padEnd(7) + '] ' + tag + ' ' + date + ' — ' + title + noteStr);
   });
 
   document.getElementById('stat-done').textContent = done;
   document.getElementById('stat-partial').textContent = partial;
   document.getElementById('stat-skip').textContent = skip;
 
-  const header = 'YARD CALENDAR 2026 -- YEAR-END EXPORT\nGenerated: ' + new Date().toLocaleDateString() +
+  const header = 'YARD CALENDAR 2026 — YEAR-END EXPORT\nGenerated: ' + new Date().toLocaleDateString() +
                  '\nDone: ' + done + ' | Partial: ' + partial + ' | Skipped: ' + skip +
-                 '\n' + '─'.repeat(55) + '\n';
+                 '\n+USER = task you added yourself\n' + '─'.repeat(55) + '\n';
   document.getElementById('sum-export').value = header + lines.join('\n');
 }
 
@@ -823,8 +907,148 @@ function copyExport() {
   }
 }
 
+/* ── Fan-out FAB control ── */
+function toggleFabs() {
+  const g = document.getElementById('fabg');
+  const m = document.getElementById('fab-main');
+  const b = document.getElementById('fab-backdrop');
+  const open = g.classList.toggle('open');
+  m.classList.toggle('open', open);
+  b.classList.toggle('open', open);
+}
+function closeFabs() {
+  document.getElementById('fabg').classList.remove('open');
+  document.getElementById('fab-main').classList.remove('open');
+  document.getElementById('fab-backdrop').classList.remove('open');
+}
+
+/* ── User-added tasks ── */
+const USER_TASKS_KEY = 'yard2026_user_tasks';
+
+function getUserTasks() { try { return JSON.parse(localStorage.getItem(USER_TASKS_KEY) || '[]'); } catch { return []; } }
+function saveUserTasks(arr) { try { localStorage.setItem(USER_TASKS_KEY, JSON.stringify(arr)); } catch {} }
+
+function saveNewTask() {
+  const title = document.getElementById('add-title').value.trim();
+  const date = document.getElementById('add-date').value;
+  const status = document.getElementById('add-status').value;
+  const note = document.getElementById('add-note').value.trim();
+  if (!title) { alert('Add a short title first.'); return; }
+  if (!date) { alert('Pick a date.'); return; }
+
+  const id = 'user-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
+  const userTasks = getUserTasks();
+  userTasks.push({ id, date, title, note, createdAt: new Date().toISOString() });
+  saveUserTasks(userTasks);
+
+  const state = getState();
+  state[id] = { status, note };
+  saveState(state);
+
+  renderUserTask({ id, date, title, note }, status);
+  resortTimeline();
+  updateProgress();
+  applyFilter();
+
+  // reset and close
+  document.getElementById('add-title').value = '';
+  document.getElementById('add-note').value = '';
+  document.getElementById('add-status').value = 'done';
+  closePanel('panel-addtask');
+}
+
+function deleteUserTask(id) {
+  if (!confirm('Delete this task? Its status and notes will also be removed.')) return;
+  const userTasks = getUserTasks().filter(t => t.id !== id);
+  saveUserTasks(userTasks);
+  const state = getState();
+  delete state[id];
+  saveState(state);
+  const el = document.querySelector('.te[data-id="' + id + '"]');
+  if (el) el.remove();
+  updateProgress();
+  applyFilter();
+}
+
+function fmtDow(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()];
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function renderUserTask(task, status) {
+  const day = parseInt(task.date.slice(8, 10), 10);
+  const dow = fmtDow(task.date);
+  const noteEsc = escapeHtml(task.note || '');
+  const titleEsc = escapeHtml(task.title);
+  const html = `
+    <div class="te user-task" data-date="${task.date}" data-id="${task.id}">
+      <div class="dcol"><div class="dday">${day}</div><div class="ddow">${dow}</div><div class="user-badge">You</div></div>
+      <div class="tbody">
+        <div class="ttop">
+          <div class="sbtn" onclick="cycleStatus(this)"></div>
+          <div class="ttitle" onclick="cycleStatus(this.previousElementSibling)">${titleEsc}</div>
+          <span class="user-delete" onclick="deleteUserTask('${task.id}')">remove</span>
+        </div>
+        <div class="srow">
+          <div class="spills">
+            <span class="spill" data-val="none" onclick="setPill(this)">Not done</span>
+            <span class="spill" data-val="partial" onclick="setPill(this)">Partial</span>
+            <span class="spill" data-val="done" onclick="setPill(this)">Done ✓</span>
+          </div>
+          <span class="ntoggle" onclick="toggleNote(this)">+ note</span>
+        </div>
+        <div class="nfield"><textarea rows="2" placeholder="notes…">${noteEsc}</textarea></div>
+      </div>
+    </div>`;
+  const tpl = document.createElement('template');
+  tpl.innerHTML = html.trim();
+  const el = tpl.content.firstElementChild;
+
+  // Insert into timeline in date order
+  const timeline = document.querySelector('.timeline');
+  const allEntries = Array.from(timeline.querySelectorAll('.te'));
+  let inserted = false;
+  for (const existing of allEntries) {
+    if (existing.dataset.date > task.date) {
+      existing.parentNode.insertBefore(el, existing);
+      inserted = true;
+      break;
+    }
+  }
+  if (!inserted) timeline.appendChild(el);
+
+  // Apply state and wire up textarea persistence
+  const state = getState();
+  applyEntryState(el, state[task.id] || { status });
+  if (state[task.id] && state[task.id].note) {
+    el.querySelector('.nfield').classList.add('open');
+    el.querySelector('.ntoggle').textContent = '− note';
+  }
+  el.querySelector('textarea').addEventListener('input', e => saveNote(e.target));
+}
+
+// Re-evaluate task positions if user-added tasks span new months (light touch — just leave them inline within whatever month section they fall in)
+function resortTimeline() { /* placeholder: positions handled at insert time */ }
+
 (function init() {
   const state = getState();
+
+  // Set add-task default date to today
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  const addDateEl = document.getElementById('add-date');
+  if (addDateEl) addDateEl.value = yyyy + '-' + mm + '-' + dd;
+
+  // Render any saved user tasks first
+  getUserTasks().forEach(task => {
+    const s = (state[task.id] && state[task.id].status) || 'none';
+    renderUserTask(task, s);
+  });
 
   document.querySelectorAll('.te').forEach(entry => {
     const id = entry.dataset.id;
@@ -838,7 +1062,10 @@ function copyExport() {
         const toggle = entry.querySelector('.ntoggle');
         if (toggle) toggle.textContent = '− note';
       }
-      ta.addEventListener('input', () => saveNote(ta));
+      // Avoid double-binding for user tasks (already bound in renderUserTask)
+      if (!entry.classList.contains('user-task')) {
+        ta.addEventListener('input', () => saveNote(ta));
+      }
     }
   });
 
